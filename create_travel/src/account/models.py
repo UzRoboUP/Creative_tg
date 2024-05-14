@@ -24,7 +24,7 @@ class UserSubscription(models.Model):
     def save(self, *args, **kwargs):
         self.username = self.username.upper() if self.username else self.username
         self.updated_at = now()
-        super(UserSubscribetion, self).save(*args, **kwargs)
+        super(UserSubscription, self).save(*args, **kwargs)
         return self
 
 
