@@ -50,7 +50,7 @@ class Galery(models.Model):
     def save(self, *args, **kwargs):
         self.title = self.title.upper() if self.title else self.title
         self.updated_at = now()
-        super(TravelSpots, self).save(*args, **kwargs)
+        super(Galery, self).save(*args, **kwargs)
         return self
 
 
