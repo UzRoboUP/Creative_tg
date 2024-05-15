@@ -3,8 +3,14 @@ from .models import TravelSpots, Galery
 from modeltranslation.admin import TranslationAdmin
 # Register your models here.
 
+# @admin.register(TravelSpots)
+# class TravelSpotsAdmin(TranslationAdmin):
+#     list_display=('title',)
+
+
+
 @admin.register(TravelSpots)
-class TravelSpotsAdmin(admin.ModelAdmin):
+class TravelSpotsAdmin(TranslationAdmin):
     list_display=('title',)
 
     class Media:
@@ -19,7 +25,7 @@ class TravelSpotsAdmin(admin.ModelAdmin):
         }
 
 @admin.register(Galery)
-class GaleryAdmin(admin.ModelAdmin):
+class GaleryAdmin(TranslationAdmin):
     list_display=('title',)
 
 

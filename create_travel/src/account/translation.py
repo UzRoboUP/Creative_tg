@@ -1,7 +1,7 @@
 from modeltranslation.translator import TranslationOptions, register
-from .models import UserSubscribetion
+# from .models import UserSubscribetion
 
 
-@register(UserSubscribetion)
-class UserUserSubscribetionTranslationOptions(TranslationOptions):
-    fields = ('username',)
+# @register(UserSubscribetion)
+# class UserUserSubscribetionTranslationOptions(TranslationOptions):
+#     fields = ('username',)

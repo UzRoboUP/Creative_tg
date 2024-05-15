@@ -22,7 +22,7 @@ ALLOWED_IPS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
-    # 'modeltranslation',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -214,9 +214,6 @@ LANGUAGES = (
     ('uz', gettext("O'zbek tili")),
     ('ru', gettext('Russian')),
 )
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale/'),
-)
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
 MODELTRANSLATION_LANGUAGES = ('uz','ru')
@@ -241,8 +238,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# HOST = 'https://18f6-194-93-24-3.ngrok-free.app'
-HOST = 'http://localhost:8000'
+HOST = 'https://6b4d-185-213-229-48.ngrok-free.app'
+# HOST = 'http://localhost:8000'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

@@ -6,6 +6,7 @@ from .models import TravelSpots, Galery
 class TravelSpotsTranslationOptions(TranslationOptions):
     fields = ('title','description')
 
+@register(Galery)
+class GaleryTranslationOptions(TranslationOptions):
+    fields = ('title', )
 
-
-    
