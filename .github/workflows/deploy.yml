@@ -19,10 +19,10 @@ jobs:
     - name: GIT pulling from github repository
       uses: appleboy/scp-action@master
       with:
-        HOST: ${{ secrets.SSH_HOST }}
-        USERNAME: ${{ secrets.SSH_USERNAME }}
-        PORT: ${{ secrets.SSH_PORT }}
-        KEY: ${{ secrets.SSH_KEY }}
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "."
         target: "${{ env.TARGET_FOLDER }}"
 
