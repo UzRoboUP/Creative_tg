@@ -244,9 +244,11 @@ HOST = 'http://localhost:8000'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+
+
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
-CSRF_TRUSTED_ORIGINS = [HOST]
+CSRF_TRUSTED_ORIGINS = ['https://www.creativetg.leetcode.uz', 'https://creativetg.leetcode.uz']
 
 AXES_LOCKOUT_URL = HOST + '/lockout/'
 

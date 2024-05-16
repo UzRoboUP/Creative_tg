@@ -10,9 +10,9 @@ from .pagination import TwentyPagination, ThreePagination
 class TravelSpotsListView(generics.ListAPIView):
     queryset=TravelSpots.objects.all()
     serializer_class=TravelSpotsSerializer
-    pagination_class=ThreePagination
+    # pagination_class=ThreePagination
 
 class GaleryListView(generics.ListAPIView):
     queryset=Galery.objects.all()
     serializer_class=GalerySerializer
-    pagination_class=TwentyPagination
+    # pagination_class=TwentyPagination
