@@ -8,12 +8,12 @@ from .yasg import schema_view
 
 
 
-urlpatterns = i18n_patterns(
+urlpatterns =[
     path('admin/', admin.site.urls),
     path('', include('account.urls')),
     path('', include("app.urls")),
     path('', include("press_service.urls")),
-)
+]
 
 urlpatterns += [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  
