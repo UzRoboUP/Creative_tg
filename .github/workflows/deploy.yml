@@ -29,14 +29,14 @@ jobs:
     - name: Command using from script
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
-        USERNAME: ${{ secrets.SSH_USERNAME }}
-        PORT: ${{ secrets.SSH_PORT }}
-        KEY: ${{ secrets.SSH_KEY }}
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         script_stop: true
         script: |
           git --work-tree="${{ env.TARGET_FOLDER }}" --git-dir="${{ env.TARGET_FOLDER }}/.git" clean -f .
-          /root/projects/creativetg/venv/bin/pip install -r /root/projects/creativetg/create_travel/requirements.txt
-          /root/projects/creativetg/venv/bin/python /root/projects/creativetg/create_travel/src/manage.py migrate
+          /root/projects/creativetg/create_travel/venv/bin/pip install -r /root/projects/creativetg/create_travel/requirements.txt
+          /root/projects/creativetg/create_travel/venv/bin/python /root/projects/creativetg/create_travel/src/manage.py migrate
           systemctl restart creativetg.service
  
