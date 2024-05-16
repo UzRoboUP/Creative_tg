@@ -10,7 +10,7 @@ class TravelSpots(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     title=models.CharField(max_length=40, verbose_name=_("Адрес"))
-    image=models.ImageField(upload_to='image/travel_spots', verbose_name=_("изображение"))
+    image=models.ImageField(upload_to='image/travel-spots', verbose_name=_("изображение"))
     description=models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
