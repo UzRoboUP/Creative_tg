@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
-
+from django.template.defaultfilters import slugify
+from django.utils.html import mark_safe
 import uuid
 
 # Create your models here.
@@ -18,15 +19,23 @@ class TravelSpots(models.Model):
 
     in_uzbekistan=models.BooleanField(default=True, verbose_name=_("в узбекистане"))
 
+    slug=models.SlugField(null=True, blank=True)
+
     objects = models.Manager()
 
 
     def save(self, *args, **kwargs):
+        self.slug=slugify(self.title)
         self.title = self.title.upper() if self.title else self.title
         self.updated_at = now()
         super(TravelSpots, self).save(*args, **kwargs)
         return self
-
+    
+    def photo(self): 
+        """
+        this method responsible for providing the image of shop at admin panel
+        """
+        return mark_safe(f'<img src = "{self.image.url}" width = "50"/>')
 
     class Meta:
         verbose_name = _("Место для путешествий")
@@ -53,6 +62,11 @@ class Galery(models.Model):
         super(Galery, self).save(*args, **kwargs)
         return self
 
+    def photo(self): 
+        """
+        this method responsible for providing the image of shop at admin panel
+        """
+        return mark_safe(f'<img src = "{self.image.url}" width = "50"/>')
 
     class Meta:
         verbose_name = _("Галерея")

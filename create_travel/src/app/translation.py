@@ -4,9 +4,11 @@ from .models import TravelSpots, Galery
 
 @register(TravelSpots)
 class TravelSpotsTranslationOptions(TranslationOptions):
-    fields = ('title','description')
+    fields = ('title','description',)
+    
 
 @register(Galery)
 class GaleryTranslationOptions(TranslationOptions):
     fields = ('title', )
+
 

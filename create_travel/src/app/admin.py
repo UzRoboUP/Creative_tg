@@ -11,7 +11,7 @@ from modeltranslation.admin import TranslationAdmin
 
 @admin.register(TravelSpots)
 class TravelSpotsAdmin(TranslationAdmin):
-    list_display=('title',)
+    list_display = ["title", "created_at","photo"]
 
     class Media:
         js=(
@@ -23,10 +23,14 @@ class TravelSpotsAdmin(TranslationAdmin):
         css={
             'screen':('modeltranslation/css/tabbed_translation_fields.css')
         }
-
+    readonly_fields = ['photo']
+    list_per_page = 20
 @admin.register(Galery)
+
 class GaleryAdmin(TranslationAdmin):
-    list_display=('title',)
+    list_display = ["title", "created_at","photo"]
+    list_per_page = 20
+    readonly_fields = ['photo']
 
 
 

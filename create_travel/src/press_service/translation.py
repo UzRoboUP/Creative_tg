@@ -1,13 +1,7 @@
 from modeltranslation.translator import TranslationOptions, register
-from .models import Tags, News
 
+from .models import News
 
 @register(News)
-class NewsTranslationOptions(TranslationOptions):
-    fields = ('title','content')
-
-@register(Tags)
-class TagsTranslationOptions(TranslationOptions):
-    fields = ('title',)
-
-    
+class GaleryTranslationOptions(TranslationOptions):
+    fields = ('title','content',)
