@@ -6,7 +6,7 @@ class TravelSpotsSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=TravelSpots
-        fields='__all__'
+        fields=['title', 'description', 'uuid', 'image', 'slug', 'in_uzbekistan',]
         lookup_field = 'slug'
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
@@ -16,5 +16,5 @@ class GalerySerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Galery
-        fields='__all__'
+        fields=['id','title','image']
 

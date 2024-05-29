@@ -13,6 +13,7 @@ import logging
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = serializers.MyTokenObtainPairSerializer
+    queryset=User.objects.all()
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()

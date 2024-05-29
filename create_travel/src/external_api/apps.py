@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AvtomobileConfig(AppConfig):
+class ExternalApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'avtomobile'
+    name = 'external_api'

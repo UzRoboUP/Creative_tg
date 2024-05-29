@@ -12,6 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
+HOTEL_KEY_ID=config("HOTEL_KEY_ID")
+HOTEL_KEY_TOKEN=config("HOTEL_KEY_TEST")
+HOTEL_API_URL=config("HOTEL_API_URL")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +41,7 @@ APPS = [
     'account.apps.AccountConfig',
     'app.apps.AppConfig',
     'press_service.apps.PressServiceConfig',
+    'external_api.apps.ExternalApiConfig',
 
     ]
 
@@ -138,11 +143,11 @@ REST_FRAMEWORK = {
 # JWT settings
 
 SIMPLE_JWT = {
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=20),
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
-    'user_model': 'account.User',
+    "TOKEN_OBTAIN_SERIALIZER": "account.serializers.MyTokenObtainPairSerializer"
 }
 
 # AXES settings
@@ -201,7 +206,7 @@ AUDITLOG_INCLUDE_ALL_MODELS = True
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Asia/Tashkent'
 
@@ -212,13 +217,13 @@ USE_L10N = True
 gettext=lambda s:s
 
 LANGUAGES = (
-    ('uz', gettext("O'zbek tili")),
+    ('en', gettext("English")),
     ('ru', gettext('Russian')),
 )
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
-MODELTRANSLATION_LANGUAGES = ('uz','ru')
-MODELTRANSLATION_FALLBACK_LANGUAGES = ('uz','ru')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('en','ru')
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('en','ru')
 TRANSLATABLE_MODEL_MODULES = ('press_service.models', 'app.models',)
 
 MODELTRANSLATION_TRANSLATION_FILES = (

@@ -5,8 +5,14 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
 from .models import UserSubscription
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        if not self.user.is_active:
+            raise serializers.ValidationError("You are not allowed to login")
+        attrs["username"] = self.user.username
+        return attrs
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
@@ -14,6 +20,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         return token
+    class Meta:
+        model=User
+        fields=['username', 'password']
 
 class RegisterSerializer(serializers.ModelSerializer):
 

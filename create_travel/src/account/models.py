@@ -10,7 +10,7 @@ import uuid
 
 
 class UserSubscription(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True,editable=False, unique=True,)
 
     username=models.CharField(max_length=255, verbose_name=_("Имя"))
     email=models.EmailField(verbose_name=_("Электронная почта"))
@@ -37,4 +37,4 @@ class UserSubscription(models.Model):
         ]
 
     def __str__(self):
-        return self.username+self.uuid
+        return self.username

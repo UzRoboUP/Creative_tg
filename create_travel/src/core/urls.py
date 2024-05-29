@@ -13,6 +13,7 @@ urlpatterns =[
     path('', include('account.urls')),
     path('', include("app.urls")),
     path('', include("press_service.urls")),
+    path('', include("external_api.urls")),
 ]
 
 urlpatterns += [

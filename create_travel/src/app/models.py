@@ -8,7 +8,7 @@ import uuid
 # Create your models here.
 
 class TravelSpots(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
     title=models.CharField(max_length=40, verbose_name=_("Адрес"))
     image=models.ImageField(upload_to='image/travel-spots', verbose_name=_("изображение"))
