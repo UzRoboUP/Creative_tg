@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
 HOTEL_KEY_ID=config("HOTEL_KEY_ID")
-HOTEL_KEY_TOKEN=config("HOTEL_KEY_TEST")
+HOTEL_KEY_TOKEN_TEST=config("HOTEL_KEY_TOKEN_TEST")
 HOTEL_API_URL=config("HOTEL_API_URL")
 
 
@@ -75,6 +75,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+AUTH_USER_MODEL='account.user'
 
 TEMPLATES = [
     {
@@ -140,6 +141,7 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
 }
 
+
 # JWT settings
 
 SIMPLE_JWT = {
@@ -177,6 +179,8 @@ LOGGING = {
         },
     },
 }
+
+
 
 # CACHES
 CACHES = {
@@ -245,8 +249,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # HOST = 'https://6b4d-185-213-229-48.ngrok-free.app'
-# HOST = 'http://localhost:8000'
-HOST='https://creativetg.leetcode.uz'
+HOST = 'http://localhost:8000'
+# HOST='https://creativetg.leetcode.uz'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

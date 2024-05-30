@@ -2,8 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.models import User
-from .models import UserSubscription
+from .models import User
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -54,5 +53,5 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserSubscribetionSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model=UserSubscription
-        fields='__all__'
+        model=User
+        fields=['username','email']

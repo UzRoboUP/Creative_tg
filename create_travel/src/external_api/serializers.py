@@ -13,8 +13,6 @@ class HotelSerializer(serializers.Serializer):
     language=serializers.CharField(max_length=2)
     currency=serializers.CharField(max_length=3, required=False)
     residency=serializers.CharField(max_length=2)
-    hotels_limit=serializers.IntegerField(required=False)
-    timeout=serializers.IntegerField(max_value=100, required=False)
 
     def validate(self, attrs):
         data=super().validate(attrs)

@@ -8,7 +8,7 @@ import requests
 from .serializers import HotelSerializer, AirTicketSerializer
 from .models import HotelSearch
 
-from core.settings.base import HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN
+from core.settings.base import HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST
 
 
 # data = {
@@ -25,20 +25,24 @@ from core.settings.base import HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN
 #     "region_id": 965849726,
 #     "currency": "UZS"
 # }
+# HOTEL_KEY_TEST="43a33a2a-ca60-4d32-9394-03e7ed413572"
+# HOTEL_API_URL="https://api.worldota.net/api/b2b/v3/search/serp/region/"
+# HOTEL_KEY_ID="4930"
+
 
 class HotelAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=HotelSerializer
-    permission_classes=[IsAuthenticated,]
+    # permission_classes=[IsAuthenticated,]
     def post(self,request):
         serializer=HotelSerializer(request.data)
-        serializer.is_valid(raise_exception=True)
+        # serializer.is_valid(raise_exception=True)
         try:
-            response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN), json=serializer.data)
+            response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=serializer.data)
             data = response.json()
-            return Response(data=data)
+            return Response(data)
         except Exception:
-            raise Response(data=response.status_code)
+            raise Response(response.status_code)
         
 
 class AirTicketAPIView(generics.GenericAPIView):
