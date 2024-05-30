@@ -18,7 +18,6 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
 
     def save(self, *args, **kwargs):
-        self.username = self.username.upper() if self.username else self.username
         self.updated_at = now()
         super(User, self).save(*args, **kwargs)
         return self
