@@ -40,12 +40,16 @@ class HotelAPIView(generics.GenericAPIView):
         try:
             hotel_search_response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=serializer.data)
             data = hotel_search_response.json()
+            hotel_detail_list={}
             for hotel in data['data']['hotels']:
-                hotel_detail=dict()
-                hotel_detail={"id":hotel['id'], "language":request.data['language']}
+                print(hotel['id'])
+                hotel_detail:dict={"id":hotel['id'], "language":request.data['language']}
                 detail=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=hotel_detail)   
-                hotel_detail[hotel['id']]=detail.json()   
-            return Response(data={'data':data,'hotel_detail':hotel_detail})
+                print(detail)
+                hotel_detail_list[hotel['id']]=detail.json()
+                print(len(hotel_detail_list))
+
+            return Response(data={'data':data,'hotel_detail':hotel_detail_list})
         except Exception:
             raise Response(hotel_search_response.status_code)
         
