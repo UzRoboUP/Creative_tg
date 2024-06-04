@@ -41,18 +41,19 @@ class HotelAPIView(generics.GenericAPIView):
             hotel_search_response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=serializer.data)
             data = hotel_search_response.json()
             hotel_detail_list={}
-            for hotel in data['data']['hotels']:
-                print(hotel['id'])
+            for hotel_id in range(len(data['data']['hotels'])):
+                hotel=data['data']['hotels'][hotel_id]
+                print(hotel)
                 hotel_detail:dict={"id":hotel['id'], "language":request.data['language']}
                 detail=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=hotel_detail)   
-                print(detail)
-                hotel_detail_list[hotel['id']]=detail.json()
-                print(len(hotel_detail_list))
+                data['data']['hotels'][hotel_id]['hotel_detail']=detail.json()
 
-            return Response(data={'data':data,'hotel_detail':hotel_detail_list})
+            print(data)
+            return Response(data=data)
         except Exception:
             raise Response(hotel_search_response.status_code)
         
+
 
 class AirTicketAPIView(generics.GenericAPIView):
     queryset=None
