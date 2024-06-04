@@ -18,7 +18,12 @@ class HotelSerializer(serializers.Serializer):
         data=super().validate(attrs)
         if data['checkin']>data['checkout']:
             raise serializers.ValidationError("checkin date must not be greater than checkout date")
-        
+
+
+class HotelDetailPageSeriaizer(serializers.Serializer):
+    id=serializers.CharField(max_length=255)
+    language=serializers.CharField(max_length=2)
+    
 
 # #AirticketSerializer
 

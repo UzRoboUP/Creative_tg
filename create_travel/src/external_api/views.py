@@ -8,7 +8,7 @@ import requests
 from .serializers import HotelSerializer, AirTicketSerializer
 from .models import HotelSearch
 
-from core.settings.base import HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST
+from core.settings.base import HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL
 
 
 # data = {
@@ -38,11 +38,16 @@ class HotelAPIView(generics.GenericAPIView):
         serializer=HotelSerializer(request.data)
         # serializer.is_valid(raise_exception=True)
         try:
-            response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=serializer.data)
-            data = response.json()
-            return Response(data)
+            hotel_search_response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=serializer.data)
+            data = hotel_search_response.json()
+            for hotel in data['data']['hotels']:
+                hotel_detail=dict()
+                hotel_detail={"id":hotel['id'], "language":request.data['language']}
+                detail=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=hotel_detail)   
+                hotel_detail[hotel['id']]=detail.json()   
+            return Response(data={'data':data,'hotel_detail':hotel_detail})
         except Exception:
-            raise Response(response.status_code)
+            raise Response(hotel_search_response.status_code)
         
 
 class AirTicketAPIView(generics.GenericAPIView):

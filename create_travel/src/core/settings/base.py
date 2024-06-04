@@ -15,7 +15,7 @@ SECRET_KEY = config("SECRET_KEY")
 HOTEL_KEY_ID=config("HOTEL_KEY_ID")
 HOTEL_KEY_TOKEN_TEST=config("HOTEL_KEY_TOKEN_TEST")
 HOTEL_API_URL=config("HOTEL_API_URL")
-
+HOTEL_API_DETAIL_URL=config("HOTEL_API_DETAIL")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
