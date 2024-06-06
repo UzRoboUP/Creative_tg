@@ -40,7 +40,7 @@ class HotelAPIView(generics.GenericAPIView):
             hotel_detail_list={}
             for hotel_id in range(len(data['data']['hotels'])):
                 hotel=data['data']['hotels'][hotel_id]
-                print(hotel)
+            
                 hotel_detail_request:dict={"id":hotel['id'], "language":request.data['language']}
                 hotel_detail_list=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=hotel_detail_request)   
                 data['data']['hotels'][hotel_id]['hotel_detail']=hotel_detail_list.json()
