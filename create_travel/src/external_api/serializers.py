@@ -6,7 +6,18 @@ class GuestsSerializer(serializers.Serializer):
     children=serializers.ListField(child=serializers.IntegerField(max_value=17), min_length=0, max_length=4)
 
 class HotelSerializer(serializers.Serializer):
-    region_id=serializers.IntegerField()
+    region_name=serializers.CharField(max_length=255)
+    checkin=serializers.DateField() #Check-in date, no later than 730 days from the day on which the request is made. required: True
+    checkout=serializers.DateField() #Check-out date, no later than 30 days from checkin date. required: True
+    guests=serializers.ListField(child=GuestsSerializer())  #Number of adult guests.required: True min_value: 1 max_value: 6                                                   
+    language=serializers.CharField(max_length=2)
+    currency=serializers.CharField(max_length=3, required=False)
+    residency=serializers.CharField(max_length=2)
+
+class HotelGeoSerializer(serializers.Serializer):
+    latitude=serializers.FloatField()
+    longitude=serializers.FloatField()
+    radius=serializers.IntegerField(default=1000)
     checkin=serializers.DateField() #Check-in date, no later than 730 days from the day on which the request is made. required: True
     checkout=serializers.DateField() #Check-out date, no later than 30 days from checkin date. required: True
     guests=serializers.ListField(child=GuestsSerializer())  #Number of adult guests.required: True min_value: 1 max_value: 6                                                   
