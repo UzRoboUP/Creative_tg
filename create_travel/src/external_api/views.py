@@ -25,6 +25,10 @@ class HotelAPIView(generics.GenericAPIView):
         # serializer.is_valid(raise_exception=True)
         
         try:
+            
+            """
+            region_id is extracted
+            """
             payload = json.dumps({
                 "query": request.data['region_name'],
                 "language": request.data['language']
