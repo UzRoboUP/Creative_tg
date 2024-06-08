@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from . import models
 # Hotel serializer
 class GuestsSerializer(serializers.Serializer):
     adults=serializers.IntegerField(min_value=1, max_value=6)
@@ -30,12 +30,12 @@ class HotelGeoSerializer(serializers.Serializer):
         if data['checkin']>data['checkout']:
             raise serializers.ValidationError("checkin date must not be greater than checkout date")
 
+class RegionNameSerializer(serializers.ModelSerializer):
 
-class HotelDetailPageSeriaizer(serializers.Serializer):
-    id=serializers.CharField(max_length=255)
-    language=serializers.CharField(max_length=2)
-    
-
+    class Meta:
+        model=models.CityName
+        fields='__all__'
+        
 # #AirticketSerializer
 
 class AirTicketSerializer(serializers.Serializer):

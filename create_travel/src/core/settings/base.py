@@ -16,6 +16,7 @@ HOTEL_KEY_ID=config("HOTEL_KEY_ID")
 HOTEL_KEY_TOKEN_TEST=config("HOTEL_KEY_TOKEN_TEST")
 HOTEL_API_URL=config("HOTEL_API_URL")
 HOTEL_API_DETAIL_URL=config("HOTEL_API_DETAIL")
+HOTEL_REGION_ID_URL=config("HOTEL_REGION_ID_URL")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -249,8 +250,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # HOST = 'https://6b4d-185-213-229-48.ngrok-free.app'
-# HOST = 'http://localhost:8000'
-HOST='https://creativetg.leetcode.uz'
+HOST = 'http://localhost:8000'
+# HOST='https://creativetg.leetcode.uz'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

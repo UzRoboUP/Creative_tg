@@ -8,3 +8,4 @@ def get_latitude(region_name):
 
 def get_longitude(region_name):
     return geolocator.geocode(region_name).longitude   
+

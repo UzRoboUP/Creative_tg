@@ -4,13 +4,15 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .geolocatioon import get_latitude, get_longitude
+
 import requests
+import json
 from .serializers import HotelSerializer, AirTicketSerializer
 from .models import HotelSearch
 
 
-from core.settings.base import HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL
+from core.settings.base import (HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL,
+                                HOTEL_REGION_ID_URL)
 
 class HotelAPIView(generics.GenericAPIView):
     queryset=None
@@ -23,17 +25,23 @@ class HotelAPIView(generics.GenericAPIView):
         # serializer.is_valid(raise_exception=True)
         
         try:
-            region_name=request.data['region_name']
-            longitude=get_longitude(region_name=region_name)
-            latitude=get_latitude(region_name=region_name)
+            payload = json.dumps({
+                "query": request.data['region_name'],
+                "language": request.data['language']
+            })
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            region_id_response=requests.request("POST", HOTEL_REGION_ID_URL, headers=headers, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST),
+                            data=payload)
+            region_id_list=region_id_response.json()
 
-            hotel_search_data_by_location={"latitude":latitude, "longitude":longitude, "radius":4000, 
-              "checkin":request.data["checkin"], "checkout":request.data["checkout"],
+            hotel_search_data_region_id={"region_id":region_id_list['data']['regions'][0]['id'],"checkin":request.data["checkin"], "checkout":request.data["checkout"],
               "guests":request.data["guests"], "language":request.data["language"], 
-              "currency":request.data["currency"], "residency":request.data["residency"]}
+              "currency":request.data["currency"], "residency":request.data["residency"], "hotels_limit":20}
             
             # retieving avialible hotels
-            hotel_search_response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=hotel_search_data_by_location)
+            hotel_search_response = requests.post(url=HOTEL_API_URL, auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), json=hotel_search_data_region_id)
         
             data = hotel_search_response.json()
            
@@ -47,10 +55,8 @@ class HotelAPIView(generics.GenericAPIView):
 
             return Response(data=data)
         except Exception:
-            raise Response(hotel_search_response.status_code or hotel_detail_list.status_code)
+            raise Response(hotel_search_response.status_code or hotel_detail_list.status_code or region_id_response.status_code)
         
-
-
 class AirTicketAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=AirTicketSerializer
