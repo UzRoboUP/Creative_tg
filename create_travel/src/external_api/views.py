@@ -26,9 +26,9 @@ class HotelAPIView(generics.GenericAPIView):
         
         try:
             
-            """
-            region_id is extracted
-            """
+            
+            # region_id is extracted
+        
             payload = json.dumps({
                 "query": request.data['region_name'],
                 "language": request.data['language']
@@ -49,6 +49,7 @@ class HotelAPIView(generics.GenericAPIView):
         
             data = hotel_search_response.json()
            
+            #hotel detail data is retrieved
             hotel_detail_list={}
             for hotel_id in range(len(data['data']['hotels'])):
                 hotel=data['data']['hotels'][hotel_id]
