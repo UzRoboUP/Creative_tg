@@ -1,27 +1,22 @@
 from rest_framework import serializers
 from . import models
 # Hotel serializer
+
+class RegionAutoSearchSerializer(serializers.Serializer):
+    region_name=serializers.CharField(max_length=255)
+    language=serializers.CharField(max_length=2)
+
 class GuestsSerializer(serializers.Serializer):
     adults=serializers.IntegerField(min_value=1, max_value=6)
     children=serializers.ListField(child=serializers.IntegerField(max_value=17), min_length=0, max_length=4)
 
 class HotelSerializer(serializers.Serializer):
-    region_name=serializers.CharField(max_length=255)
+    
     checkin=serializers.DateField() #Check-in date, no later than 730 days from the day on which the request is made. required: True
     checkout=serializers.DateField() #Check-out date, no later than 30 days from checkin date. required: True
-    guests=serializers.ListField(child=GuestsSerializer())  #Number of adult guests.required: True min_value: 1 max_value: 6                                                   
     language=serializers.CharField(max_length=2)
-    currency=serializers.CharField(max_length=3, required=False)
-    residency=serializers.CharField(max_length=2)
-
-class HotelGeoSerializer(serializers.Serializer):
-    latitude=serializers.FloatField()
-    longitude=serializers.FloatField()
-    radius=serializers.IntegerField(default=1000)
-    checkin=serializers.DateField() #Check-in date, no later than 730 days from the day on which the request is made. required: True
-    checkout=serializers.DateField() #Check-out date, no later than 30 days from checkin date. required: True
     guests=serializers.ListField(child=GuestsSerializer())  #Number of adult guests.required: True min_value: 1 max_value: 6                                                   
-    language=serializers.CharField(max_length=2)
+    region_id=serializers.IntegerField()
     currency=serializers.CharField(max_length=3, required=False)
     residency=serializers.CharField(max_length=2)
 
@@ -30,31 +25,36 @@ class HotelGeoSerializer(serializers.Serializer):
         if data['checkin']>data['checkout']:
             raise serializers.ValidationError("checkin date must not be greater than checkout date")
 
-class RegionNameSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model=models.CityName
-        fields='__all__'
         
 # #AirticketSerializer
+class AviaLocationSerializer(serializers.Serializer):
+    code=serializers.CharField(max_length=3)
+    name=serializers.CharField(max_length=255)
+
+
+class RouteSerializer(serializers.Serializer):
+    date=serializers.DateField()
+    locationBegin=serializers.DictField(child=AviaLocationSerializer())
+    locationEnd=serializers.DictField(child=AviaLocationSerializer())
+
+class SeatsSerializer(serializers.Serializer):
+    PASSENGER_CHOICE=(
+       ('ADULT','ADULT'),
+       ('CHILD','CHILD'),
+       ('INFANT','INFANT') 
+    )
+    count=serializers.IntegerField()
+    passengerType= serializers.ChoiceField(choices=PASSENGER_CHOICE)
 
 class AirTicketSerializer(serializers.Serializer):
-    location_from=serializers.CharField()
-    airport_from=serializers.CharField()
-    location_to=serializers.CharField()
-    airport_from=serializers.CharField()
-    airline=serializers.CharField()
-    departure_date=serializers.DateField()
-    return_date=serializers.DateField()
-    adults=serializers.IntegerField(min_value=1)
-    children=serializers.IntegerField()
-    babies=serializers.IntegerField()
-    travel_status=serializers.CharField()
-    baggage=serializers.BooleanField()
-    business_trip=serializers.BooleanField(default=False)
-    travel_type=serializers.BooleanField(default=False)
-
-
+    route=serializers.ListField(child=RouteSerializer())
+    seats=serializers.ListField(child=SeatsSerializer())
+    serviceClass=serializers.CharField(max_length=100)
+    skipConnected=serializers.CharField(max_length=255)
+    eticketsOnly=serializers.BooleanField(default=True)
+    mixedVendors=serializers.BooleanField(default=True)
+    preferredAirlines=serializers.ListField()
 
 
 
