@@ -70,11 +70,13 @@ class HotelAPIView(generics.GenericAPIView):
             return Response(data=hotel_list_respone)
         except Exception as e:
             return Response(response.status_code)
+        
+
       
 class AirTicketAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=AirTicketSerializer
-    
+    # permission_classes=[IsAuthenticated,]
     def post(self, request):
         data=request.data
         return Response(data=data)
