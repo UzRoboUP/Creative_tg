@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+
 # Hotel serializer
 
 class RegionAutoSearchSerializer(serializers.Serializer):
@@ -35,30 +36,36 @@ class AviaLocationSerializer(serializers.Serializer):
 
 class RouteSerializer(serializers.Serializer):
     date=serializers.DateField()
-    locationBegin=serializers.DictField(child=AviaLocationSerializer())
-    locationEnd=serializers.DictField(child=AviaLocationSerializer())
+    locationBegin=AviaLocationSerializer()
+    locationEnd=AviaLocationSerializer()
 
 class SeatsSerializer(serializers.Serializer):
-    PASSENGER_CHOICE=(
-       ('ADULT','ADULT'),
-       ('CHILD','CHILD'),
-       ('INFANT','INFANT') 
-    )
-    count=serializers.IntegerField()
-    passengerType= serializers.ChoiceField(choices=PASSENGER_CHOICE)
+    count=serializers.IntegerField(min_value=1)
+    passengerType= serializers.CharField(max_length=255)
 
-class AirTicketSerializer(serializers.Serializer):
+class AirTicketParametrSerializer(serializers.Serializer):
     route=serializers.ListField(child=RouteSerializer())
-    seats=serializers.ListField(child=SeatsSerializer())
+    seats=serializers.ListField(child=SeatsSerializer(), max_length=6)
     serviceClass=serializers.CharField(max_length=100)
-    skipConnected=serializers.CharField(max_length=255)
+    skipConnected=serializers.CharField(max_length=255, required=False)
     eticketsOnly=serializers.BooleanField(default=True)
     mixedVendors=serializers.BooleanField(default=True)
-    preferredAirlines=serializers.ListField()
+    preferredAirlines=serializers.ListField(required=False)
+
+class AirTicketContextSerializer(serializers.Serializer):
+    time=serializers.DateTimeField()
+    locale=serializers.CharField(max_length=2)
 
 
+class AirTicketRequestSerializer(serializers.Serializer):
+    context=AirTicketContextSerializer()
+    parameters=AirTicketParametrSerializer()
 
+class AirportCodeSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model=models.AirCityCodes
+        fields=['country','airport','code']
 
 
 

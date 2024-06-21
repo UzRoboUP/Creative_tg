@@ -17,18 +17,23 @@ class HotelSearch(models.Model):
     residency=models.CharField(max_length=2)
 
 
-class CityName(models.Model):
+class AirCityCodes(models.Model):
     id=models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    name = models.CharField(max_length=255, verbose_name=_("Имя"))
+    country = models.CharField(max_length=255)
+    airport=models.CharField(max_length=255)
+    code =models.CharField(max_length=3)
+
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
 
+    def __str__(self) -> str:
+        return self.airport +" " + self.code
 
     class Meta:
-        verbose_name_plural = _('Города')
-        verbose_name = _('Город')
-        db_table = 'city'
+        verbose_name_plural = 'airport_code_list'
+        verbose_name = 'airport_code_list'
+        db_table = 'airport_code_list'
         indexes = [
-            models.Index(fields=['name']),
+            models.Index(fields=['country','airport','code']),
         ]

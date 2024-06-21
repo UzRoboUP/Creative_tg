@@ -17,6 +17,12 @@ HOTEL_KEY_TOKEN_TEST=config("HOTEL_KEY_TOKEN_TEST")
 HOTEL_API_URL=config("HOTEL_API_URL")
 HOTEL_API_DETAIL_URL=config("HOTEL_API_DETAIL")
 HOTEL_REGION_ID_URL=config("HOTEL_REGION_ID_URL")
+AGENCY=config("AGENCY")
+USER=config("USER")
+PASSWORD_AIRTICKET=config("PASSWORD")
+AIR_TICKET_URL=config("AIR_TICKET_URL")
+LOGIN=config("LOGIN")
+LOGIN_PASSWORD=config("LOGIN_PASSWORD")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -140,7 +146,11 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
+
 
 
 # JWT settings

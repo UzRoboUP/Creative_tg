@@ -3,16 +3,18 @@ from rest_framework import generics, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
+from django_filters import rest_framework as filters
 
 import requests
 import json
-from .serializers import HotelSerializer, AirTicketSerializer, RegionAutoSearchSerializer
-from .models import HotelSearch
-
+from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAutoSearchSerializer, 
+                          AirportCodeSerializer)
+from .models import HotelSearch, AirCityCodes
+from .hashing import md5_time_hashing
+from .filters import AviaRegionFilter
 
 from core.settings.base import (HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL,
-                                HOTEL_REGION_ID_URL)
+                                HOTEL_REGION_ID_URL,USER, PASSWORD_AIRTICKET, AGENCY,AIR_TICKET_URL, LOGIN, LOGIN_PASSWORD)
 
 class AutoRegionSearchAPIView(generics.GenericAPIView):
     queryset=None
@@ -31,8 +33,8 @@ class AutoRegionSearchAPIView(generics.GenericAPIView):
                                 data=payload)
             region_id_list=region_id_response.json()
             return Response(region_id_list)
-        except Exception as e:
-            return Response(region_id_response.status_code or e)
+        except Exception:
+            return Response(data=region_id_list['error'],status=region_id_response.status_code)
 
 class HotelAPIView(generics.GenericAPIView):
     queryset=None
@@ -69,14 +71,57 @@ class HotelAPIView(generics.GenericAPIView):
 
             return Response(data=hotel_list_respone)
         except Exception as e:
-            return Response(response.status_code)
+            return Response(data={}, status=response.status_code)
         
 
-      
 class AirTicketAPIView(generics.GenericAPIView):
     queryset=None
-    serializer_class=AirTicketSerializer
+    serializer_class=AirTicketRequestSerializer
     # permission_classes=[IsAuthenticated,]
+
     def post(self, request):
-        data=request.data
-        return Response(data=data)
+        time=str(request.data['context']['time'])
+        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=USER)
+
+        payload=json.dumps({
+            "context": {
+                "agency":AGENCY,
+                "user":USER,
+                "time":request.data['context']['time'],
+                "hash":hash,
+                "locale":request.data['context']['locale'],
+                "time":time,
+                "command": "SEARCHFLIGHTS",
+            },
+            "parameters":request.data['parameters']
+        })
+
+        response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
+        data=response.json()
+        print(data)
+        if len(data['respond']['token']):
+            token_payload=json.dumps({            
+                "context": {
+                    "agency":AGENCY,
+                    "user":USER,
+                    "time":request.data['context']['time'],
+                    "hash":hash,
+                    "locale":request.data['context']['locale'],
+                    "time":time,
+                    "command": "SEARCHRESULT",
+                },
+                "parameters":{
+                    "token": data['respond']['token']
+                }
+            })
+            token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
+            return Response(data=token_response.json(), status=token_response.status_code)
+        else:
+            return Response(data=data['respond']['messages'], status=response.status_code)
+        
+
+class AirportCodeAPIView(generics.ListAPIView):
+    queryset=AirCityCodes.objects.all()
+    serializer_class=AirportCodeSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class=AviaRegionFilter
