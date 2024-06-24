@@ -68,6 +68,89 @@ class AirportCodeSerializer(serializers.ModelSerializer):
         fields=['country','airport','code']
 
 
+# booking section of airport
+class FlightSerializer(serializers.Serializer):
+    token=serializers.IntegerField()
+
+class FlightsSerializer(serializers.Serializer):
+    flight=serializers.ListField(child=FlightSerializer())
+
+class ItinerarySerializer(serializers.Serializer):
+    token=serializers.IntegerField()
+    flights=FlightsSerializer()
+
+class ItinerariesSerializer(serializers.Serializer):
+    itinerary=serializers.ListField(child=ItinerarySerializer())
+
+class FlightGroupSerializer(serializers.Serializer):
+    token=serializers.IntegerField()
+    itineraries=ItinerariesSerializer()
+
+class FlightsGroupSerializer(serializers.Serializer):
+    flightGroup=serializers.ListField(child=FlightGroupSerializer())
+
+class AirportCreateBookingParametrSerializer(serializers.Serializer):
+    flightsGroup=FlightsGroupSerializer()
+    token=serializers.CharField(max_length=255)
+
+class AirportBookingSerializer(serializers.Serializer):
+    context=AirTicketContextSerializer()
+    parameters=AirportCreateBookingParametrSerializer()
+
+# creating Booking Proccess in AirTicket
+class AirportCustomerSerializer(serializers.Serializer):
+    name=serializers.CharField(max_length=255)
+    email=serializers.EmailField()
+    countryCode=serializers.CharField(max_length=255)
+    areaCode=serializers.CharField(max_length=255)
+    phoneNumber=serializers.CharField(max_length=255)
+
+class AirportPassengerCitizenShipSerializer(serializers.Serializer):
+    code=serializers.CharField(max_length=4)
+    name=serializers.CharField(max_length=255)
+
+class AirportPassportDetailSerializer(serializers.Serializer):
+    firstName=serializers.CharField(max_length=255)
+    lastName=serializers.CharField(max_length=255)
+    middleName=serializers.CharField(max_length=255)
+    citizenship=AirportPassengerCitizenShipSerializer()
+    issued=serializers.CharField(max_length=255)
+    expired=serializers.DateTimeField()
+    number=serializers.CharField(max_length=255)
+    type=serializers.CharField(max_length=255)
+    birthday=serializers.DateField()
+    gender=serializers.CharField(max_length=255)
+
+
+class AirportPassengerDetailSerializer(serializers.Serializer):
+    passport=AirportPassportDetailSerializer()
+    type=serializers.CharField(max_length=255)
+    phoneType=serializers.CharField(max_length=255)
+    phoneNumber=serializers.CharField(max_length=255)
+    countryCode=serializers.CharField(max_length=255)
+    areaCode=serializers.CharField(max_length=255)
+    email=serializers.EmailField()
+    isEmailRefused=serializers.BooleanField(default=False)
+    isEmailAbsent=serializers.BooleanField(default=False)
+
+class AirportSinglePassengerSerializer(serializers.Serializer):
+    passenger=serializers.ListField(child=AirportPassengerDetailSerializer())
+
+
+class AirportBookingFormParameterSerializer(serializers.Serializer):
+    flightsGroup=FlightsGroupSerializer()
+    token=serializers.CharField(max_length=255)
+    customer=AirportCustomerSerializer()
+    passengers=AirportSinglePassengerSerializer()
+
+class AirportBookingFormSerializer(serializers.Serializer):
+    context=AirTicketContextSerializer()
+    parameters=AirportBookingFormParameterSerializer()
+
+
+    
+
+
 
 
 

@@ -8,7 +8,7 @@ from django_filters import rest_framework as filters
 import requests
 import json
 from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAutoSearchSerializer, 
-                          AirportCodeSerializer)
+                          AirportCodeSerializer, AirportBookingSerializer, AirportBookingFormSerializer)
 from .models import HotelSearch, AirCityCodes
 from .hashing import md5_time_hashing
 from .filters import AviaRegionFilter
@@ -125,3 +125,96 @@ class AirportCodeAPIView(generics.ListAPIView):
     serializer_class=AirportCodeSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class=AviaRegionFilter
+
+
+class AirportCreateBookingAPI(generics.GenericAPIView):
+    queryset=None
+    serializer_class=AirportBookingSerializer
+    def post(self, request):
+        time=str(request.data['context']['time'])
+        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=USER)
+
+        payload=json.dumps({
+        
+            "context": {
+                "agency":AGENCY,
+                "user":USER,
+                "time":request.data['context']['time'],
+                "hash":hash,
+                "locale":request.data['context']['locale'],
+                "time":time,
+                "command": "SELECTFLIGHT",
+            },
+            "parameters":request.data['parameters']
+
+        })
+
+        response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
+        data=response.json()
+        if len(data['respond']['token']):
+            token_payload=json.dumps({            
+                "context": {
+                    "agency":AGENCY,
+                    "user":USER,
+                    "time":request.data['context']['time'],
+                    "hash":hash,
+                    "locale":request.data['context']['locale'],
+                    "time":time,
+                    "command": "SELECTRESULT",
+                },
+                "parameters":{
+                    "token": data['respond']['token']
+                }
+            })
+            token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
+            return Response(data=token_response.json(), status=token_response.status_code)
+        else:
+            return Response(data=data['respond']['messages'], status=response.status_code)
+        
+
+class AirportBookingFormAPI(generics.GenericAPIView):
+    queryset=None
+    serializer_class=AirportBookingFormSerializer
+    def post(self, request):
+        time=str(request.data['context']['time'])
+        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=USER)
+
+        payload=json.dumps({
+        
+            "context": {
+                "agency":AGENCY,
+                "user":USER,
+                "time":request.data['context']['time'],
+                "hash":hash,
+                "locale":request.data['context']['locale'],
+                "time":time,
+                "command": "CREATEBOOKING",
+            },
+            "parameters":request.data['parameters']
+
+        })
+        response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
+        data=response.json()
+        if len(data['respond']['token']):
+            token_payload=json.dumps({            
+                "context": {
+                    "agency":AGENCY,
+                    "user":USER,
+                    "time":request.data['context']['time'],
+                    "hash":hash,
+                    "locale":request.data['context']['locale'],
+                    "time":time,
+                    "command": "CREATERESULT",
+                },
+                "parameters":{
+                    "token": data['respond']['token']
+                }
+            })
+            token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
+            return Response(data=token_response.json(), status=token_response.status_code)
+        else:
+            return Response(data=data['respond']['messages'], status=response.status_code)
+        
+
+        return Response(request.data)
+    
