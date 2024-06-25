@@ -59,20 +59,33 @@ class HotelAPIView(generics.GenericAPIView):
                 }
             response = requests.request("POST", url=HOTEL_API_URL, data=payload, auth=(HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST),)
             hotel_list=response.json()
+    
             hotel_list_respone=response.json()
             for hotel_id in range(len(hotel_list['data']['hotels'])):
                 hotel=hotel_list['data']['hotels'][hotel_id]
-                if len(hotel['rates'])==0:
-                    del hotel_list_respone['data']['hotels'][hotel_id]
-                else:
-                    hotel_detail_request=json.dumps({"id":hotel['id'], "language":request.data['language']})
-                    hotel_detail_list=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), data=hotel_detail_request, headers=headers)   
-                    hotel_list_respone['data']['hotels'][hotel_id]['hotel_detail']=hotel_detail_list.json()
+               
+                # if len(hotel['rates'])==0:
+                #     del hotel_list_respone['data']['hotels'][hotel_id]
+                # else:
 
+                hotel_detail_request=json.dumps({"id":hotel['id'], "language":request.data['language']})
+                hotel_detail_list=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), data=hotel_detail_request, headers=headers) 
+                hotel_list_respone['data']['hotels'][hotel_id]['hotel_detail']=hotel_detail_list.json()
             return Response(data=hotel_list_respone)
         except Exception as e:
-            return Response(data={}, status=response.status_code)
+            return Response(data=hotel_list_respone['error'], status=response.status_code)
         
+class HotelBookingForm(generics.GenericAPIView):
+    queryset=None
+    pass
+
+
+
+
+
+
+
+
 
 class AirTicketAPIView(generics.GenericAPIView):
     queryset=None
@@ -214,7 +227,4 @@ class AirportBookingFormAPI(generics.GenericAPIView):
             return Response(data=token_response.json(), status=token_response.status_code)
         else:
             return Response(data=data['respond']['messages'], status=response.status_code)
-        
-
-        return Response(request.data)
     
