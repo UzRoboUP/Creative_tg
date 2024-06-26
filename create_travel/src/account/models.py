@@ -16,7 +16,8 @@ class User(AbstractUser):
     password=models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
-
+    ip_address=models.GenericIPAddressField(null=True, blank=True, verbose_name=_('IP'))
+    
     def save(self, *args, **kwargs):
         self.updated_at = now()
         super(User, self).save(*args, **kwargs)

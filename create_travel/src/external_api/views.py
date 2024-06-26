@@ -7,14 +7,18 @@ from django_filters import rest_framework as filters
 
 import requests
 import json
+import uuid
+
 from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAutoSearchSerializer, 
-                          AirportCodeSerializer, AirportBookingSerializer, AirportBookingFormSerializer)
-from .models import HotelSearch, AirCityCodes
+                          AirportCodeSerializer, AirportBookingSerializer, AirportBookingFormSerializer, 
+                          HotelBookingSerializer,HotelBookingFinishSerializer, HotelPageSerializer)
+from .models import HotelSearch, AirCityCodes, PartnerOrderId
 from .hashing import md5_time_hashing
 from .filters import AviaRegionFilter
+from account.models import User
 
 from core.settings.base import (HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL,
-                                HOTEL_REGION_ID_URL,USER, PASSWORD_AIRTICKET, AGENCY,AIR_TICKET_URL, LOGIN, LOGIN_PASSWORD)
+                                HOTEL_REGION_ID_URL,USER, PASSWORD_AIRTICKET, AGENCY,AIR_TICKET_URL, LOGIN, LOGIN_PASSWORD, HOTEL_PAGE)
 
 class AutoRegionSearchAPIView(generics.GenericAPIView):
     queryset=None
@@ -65,6 +69,7 @@ class HotelAPIView(generics.GenericAPIView):
                 hotel=hotel_list['data']['hotels'][hotel_id]
                
                 # if len(hotel['rates'])==0:
+                #     print(hotel['rates'])
                 #     del hotel_list_respone['data']['hotels'][hotel_id]
                 # else:
 
@@ -74,10 +79,67 @@ class HotelAPIView(generics.GenericAPIView):
             return Response(data=hotel_list_respone)
         except Exception as e:
             return Response(data=hotel_list_respone['error'], status=response.status_code)
-        
-class HotelBookingForm(generics.GenericAPIView):
+    
+class HotelPageAPIView(generics.GenericAPIView):
     queryset=None
-    pass
+    serializer_class=HotelPageSerializer
+
+    def post(self, request):
+        try:
+            payload = json.dumps({
+                        "id": request.data['id'],
+                        "checkin": request.data['checkin'],
+                        "checkout": request.data['checkout'],
+                        "language": request.data['language'],
+                        "guests": request.data['guests'],
+                        "currency": request.data['currency'],
+                        "residency": request.data['residency'],
+                    })
+            headers = {
+                    'Content-Type': 'application/json'
+                }
+            hotel_page_response = requests.request("POST", url=HOTEL_PAGE, data=payload, auth=(HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST),)
+            
+            hotel_page=hotel_page_response.json()
+            hotel_detail_request=json.dumps({"id":request.data['id'], "language":request.data['language']})
+            hotel_detail_list=requests.post(url=HOTEL_API_DETAIL_URL,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), data=hotel_detail_request, headers=headers) 
+            hotel_page['data']['hotels'][0]['hotel_detail']=hotel_detail_list.json()
+    
+            return Response(data=hotel_page, status=hotel_page_response.status_code)
+        except Exception:
+            return Response(data=hotel_page_response['error'], status=hotel_page_response.status_code)
+
+class HotelBookingFormAPIView(generics.GenericAPIView):
+    queryset=None
+    serializer_class=HotelBookingSerializer
+
+    def post(self, request):
+        partner_order_id=uuid.uuid4()
+        user=User.objects.filter(id=self.request.user.id).first()
+
+        PartnerOrderId.objects.create(partner_order_id=partner_order_id, user=user)
+        user_ip=user.ip_address
+        payload = json.dumps({
+                        "partner_order_id": partner_order_id,
+                        "book_hash": request.data['checkin'],
+                        "user_ip": request.data['checkout'],
+                        "language": request.data['language'],
+                        
+                    })
+        headers = {
+                    'Content-Type': 'application/json'
+                }
+        return Response()
+
+class HotelBookingFinishAPIView(generics.GenericAPIView):
+    queryset=None
+    serializer_class=HotelBookingFinishSerializer
+    
+    def post(self, request):
+        data=request.data
+        return Response(data=data)
+    
+
 
 
 

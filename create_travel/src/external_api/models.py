@@ -5,6 +5,8 @@ from django.template.defaultfilters import slugify
 from django.utils.html import mark_safe
 
 import uuid
+from account.models import User
+
 # Create your models here.
 
 class HotelSearch(models.Model):
@@ -37,3 +39,17 @@ class AirCityCodes(models.Model):
         indexes = [
             models.Index(fields=['country','airport','code']),
         ]
+
+
+class PartnerOrderId(models.Model):
+    partner_order_id=models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    user=models.OneToOneField(to=User, on_delete=models.SET_NULL ,blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
+    updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
+    
+    def __str__(self) -> str:
+        return self.user.username + self.partner_order_id
+    
+
+    

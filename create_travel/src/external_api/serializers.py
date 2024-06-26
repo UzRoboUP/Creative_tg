@@ -3,6 +3,7 @@ from . import models
 
 # Hotel serializer
 
+
 class RegionAutoSearchSerializer(serializers.Serializer):
     region_name=serializers.CharField(max_length=255)
     language=serializers.CharField(max_length=2)
@@ -26,7 +27,92 @@ class HotelSerializer(serializers.Serializer):
         if data['checkin']>data['checkout']:
             raise serializers.ValidationError("checkin date must not be greater than checkout date")
 
+class HotelPageSerializer(serializers.Serializer):
+    
+    id=serializers.CharField(max_length=255, min_length=1)
+    checkin=serializers.DateField() #Check-in date, no later than 730 days from the day on which the request is made. required: True
+    checkout=serializers.DateField() #Check-out date, no later than 30 days from checkin date. required: True
+    language=serializers.CharField(max_length=2)
+    guests=serializers.ListField(child=GuestsSerializer())  #Number of adult guests.required: True min_value: 1 max_value: 6                                                   
+    currency=serializers.CharField(max_length=3, required=False)
+    residency=serializers.CharField(max_length=2)
 
+    def validate(self, attrs):
+        data=super().validate(attrs)
+        if data['checkin']>data['checkout']:
+            raise serializers.ValidationError("checkin date must not be greater than checkout date")
+
+class PartnerOrderIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.PartnerOrderId
+        fields=['partner_order_id']
+        
+class HotelBookingSerializer(serializers.Serializer):
+    partner_order_id=serializers.CharField(min_length=1, max_length=256)
+    book_hash=serializers.CharField(min_length=1, max_length=256)
+    language=serializers.CharField(min_length=2, max_length=2)
+    user_ip=serializers.IPAddressField()
+
+class HotelOrderBookingFinishPartnerSerializer(serializers.Serializer):
+    partner_order_id=serializers.CharField(min_length=1, max_length=256)
+    amount_sell_b2b2c=serializers.DecimalField(max_digits=100000000, decimal_places=10)
+
+
+class HotelOrderBookingFinishPaymentTypeSerializer(serializers.Serializer):
+    PAYMENT_TYPE_CHOICE=(
+        ('N', 'now'),
+        ('H','hotel'),
+        ('D','deposit')
+    )
+    type=serializers.ChoiceField(choices=PAYMENT_TYPE_CHOICE)
+    amount=serializers.DecimalField(max_digits=100000000, decimal_places=10)
+    currency_code=serializers.CharField(min_length=3, max_length=3)
+
+
+class HotelOrderBookingFinishUpsellDataSerializer(serializers.Serializer):
+    pass
+
+class HotelOrderBookingFinishGuestSerializer(serializers.Serializer):
+    first_name=serializers.CharField(min_length=1, max_length=32)
+    last_name=serializers.CharField(min_length=1, max_length=32)
+    is_child=serializers.BooleanField(default=False)
+    age=serializers.IntegerField(required=False)
+
+
+class HotelOrderBookingFinishRoomSerializer(serializers.Serializer):
+    guests=serializers.ListField(child=HotelOrderBookingFinishGuestSerializer())
+
+
+class HotelOrderBookingFinishUserSerializer(serializers.Serializer):
+    comment=serializers.CharField(min_length=1, max_length=32, required=False)
+    email=serializers.EmailField()
+    phone=serializers.CharField(min_length=1, max_length=32)
+
+
+
+class HotelOrderBookingFinishSupplierDataSerializer(serializers.Serializer):
+    first_name_original=serializers.CharField(min_length=1, max_length=32)
+    last_name_original=serializers.CharField(min_length=1, max_length=32)
+    phone=serializers.CharField(min_length=1, max_length=32)
+    email=serializers.EmailField()
+
+
+
+
+class HotelBookingFinishSerializer(serializers.Serializer):
+    arrival_datetime=serializers.DateField(required=False)
+    language=serializers.CharField(max_length=2, min_length=2)
+    partner=HotelOrderBookingFinishPartnerSerializer()
+    payment_type=HotelOrderBookingFinishPaymentTypeSerializer()
+    upsell_data=serializers.ListField(child=HotelOrderBookingFinishUpsellDataSerializer(), required=False)
+    return_path=serializers.CharField(min_length=1, max_length=256, required=False)
+    rooms=serializers.ListField(child=HotelOrderBookingFinishRoomSerializer())
+    user=HotelOrderBookingFinishUserSerializer()
+    supplier_data=HotelOrderBookingFinishSupplierDataSerializer()
+
+
+
+################################################################################
         
 # #AirticketSerializer
 class AviaLocationSerializer(serializers.Serializer):
