@@ -43,8 +43,8 @@ class AirCityCodes(models.Model):
 
 class PartnerOrderId(models.Model):
     partner_order_id=models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    user=models.OneToOneField(to=User, on_delete=models.SET_NULL ,blank=True, null=True)
-    
+    user=models.ForeignKey(to=User, on_delete=models.SET_NULL ,blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
     

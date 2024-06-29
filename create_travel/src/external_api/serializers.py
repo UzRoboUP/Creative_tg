@@ -48,10 +48,10 @@ class PartnerOrderIdSerializer(serializers.ModelSerializer):
         fields=['partner_order_id']
         
 class HotelBookingSerializer(serializers.Serializer):
-    partner_order_id=serializers.CharField(min_length=1, max_length=256)
+    # partner_order_id=serializers.CharField(min_length=1, max_length=256, required=False)
     book_hash=serializers.CharField(min_length=1, max_length=256)
     language=serializers.CharField(min_length=2, max_length=2)
-    user_ip=serializers.IPAddressField()
+    # user_ip=serializers.IPAddressField(required=False)
 
 class HotelOrderBookingFinishPartnerSerializer(serializers.Serializer):
     partner_order_id=serializers.CharField(min_length=1, max_length=256)
@@ -69,8 +69,7 @@ class HotelOrderBookingFinishPaymentTypeSerializer(serializers.Serializer):
     currency_code=serializers.CharField(min_length=3, max_length=3)
 
 
-class HotelOrderBookingFinishUpsellDataSerializer(serializers.Serializer):
-    pass
+
 
 class HotelOrderBookingFinishGuestSerializer(serializers.Serializer):
     first_name=serializers.CharField(min_length=1, max_length=32)
@@ -104,13 +103,13 @@ class HotelBookingFinishSerializer(serializers.Serializer):
     language=serializers.CharField(max_length=2, min_length=2)
     partner=HotelOrderBookingFinishPartnerSerializer()
     payment_type=HotelOrderBookingFinishPaymentTypeSerializer()
-    upsell_data=serializers.ListField(child=HotelOrderBookingFinishUpsellDataSerializer(), required=False)
     return_path=serializers.CharField(min_length=1, max_length=256, required=False)
     rooms=serializers.ListField(child=HotelOrderBookingFinishRoomSerializer())
     user=HotelOrderBookingFinishUserSerializer()
     supplier_data=HotelOrderBookingFinishSupplierDataSerializer()
 
-
+class HotelBookingFinishStatusSerializer(serializers.Serializer):
+    partner_order_id=serializers.CharField(min_length=1, max_length=256)
 
 ################################################################################
         
@@ -132,8 +131,8 @@ class SeatsSerializer(serializers.Serializer):
 class AirTicketParametrSerializer(serializers.Serializer):
     route=serializers.ListField(child=RouteSerializer())
     seats=serializers.ListField(child=SeatsSerializer(), max_length=6)
-    serviceClass=serializers.CharField(max_length=100)
-    skipConnected=serializers.CharField(max_length=255, required=False)
+    serviceClass=serializers.CharField(min_length=0,max_length=100)
+    skipConnected=serializers.CharField(min_length=0,max_length=255, required=False)
     eticketsOnly=serializers.BooleanField(default=True)
     mixedVendors=serializers.BooleanField(default=True)
     preferredAirlines=serializers.ListField(required=False)

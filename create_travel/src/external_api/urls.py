@@ -6,6 +6,7 @@ urlpatterns=[
     path('hotel/hotel_page/', view=views.HotelPageAPIView.as_view(), name='hotel_page'),
     path('hotel/booking_form/', view=views.HotelBookingFormAPIView.as_view(), name='hotel_booking_form'),
     path('hotel/booking_form_finish/', view=views.HotelBookingFinishAPIView.as_view(), name="hotel_booking_form_finish"),
+    path('hotel/booking_form_finish_status/', view=views.HotelBookingFinishStatusAPIView.as_view(), name='hotel_booking_finish_status'),
     path('airport/code/', view=views.AirportCodeAPIView.as_view(), name='airport_code'),
     path('airport/tickets/', view=views.AirTicketAPIView.as_view(), name='airtickets'),
     path('airport/create_booking/', view=views.AirportCreateBookingAPI.as_view(), name='airport_create_booking'),

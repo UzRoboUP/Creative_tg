@@ -11,6 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# HOTEL DATA 
 SECRET_KEY = config("SECRET_KEY")
 HOTEL_KEY_ID=config("HOTEL_KEY_ID")
 HOTEL_KEY_TOKEN_TEST=config("HOTEL_KEY_TOKEN_TEST")
@@ -20,6 +21,11 @@ HOTEL_PAGE=config("HOTEL_PAGE")
 HOTEL_BOOKING_FORM=config("HOTEL_BOOKING_FORM")
 HOTEL_BOOKING_FORM_FINISH=config("HOTEL_BOOKING_FORM_FINISH")
 HOTEL_REGION_ID_URL=config("HOTEL_REGION_ID_URL")
+HOTEL_BOOKING_FINISH_STATUS=config("HOTEL_BOOKING_FINISH_STATUS")
+
+
+
+# AVIATICKET DATA
 AGENCY=config("AGENCY")
 USER=config("USER")
 PASSWORD_AIRTICKET=config("PASSWORD")
@@ -263,8 +269,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # HOST = 'https://6b4d-185-213-229-48.ngrok-free.app'
-# HOST = 'http://localhost:8000'       
-HOST='https://creativetg.leetcode.uz'
+HOST = 'http://localhost:8000'       
+# HOST='https://creativetg.leetcode.uz'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
