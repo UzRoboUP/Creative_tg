@@ -196,12 +196,12 @@ class AirTicketAPIView(generics.GenericAPIView):
 
     def post(self, request):
         time=str(request.data['context']['time'])
-        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=AIRTICKET_USER)
-        print(AIRTICKET_USER)
+        hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
+    
         payload=json.dumps({
             "context": {
-                "agency":AGENCY,
-                "user":10659,
+                "agency":int(AGENCY),
+                "user":int(AIRTICKET_USER),
                 "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
@@ -217,8 +217,8 @@ class AirTicketAPIView(generics.GenericAPIView):
             if len(data['respond']['token']):
                 token_payload=json.dumps({            
                     "context": {
-                        "agency":AGENCY,
-                        "user":10659,
+                        "agency":int(AGENCY),
+                        "user":int(AIRTICKET_USER),
                         "time":request.data['context']['time'],
                         "hash":hash,
                         "locale":request.data['context']['locale'],
@@ -251,13 +251,13 @@ class AirportCreateBookingAPI(generics.GenericAPIView):
     serializer_class=AirportBookingSerializer
     def post(self, request):
         time=str(request.data['context']['time'])
-        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=AIRTICKET_USER)
+        hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
 
         payload=json.dumps({
         
             "context": {
-                "agency":AGENCY,
-                "user":AIRTICKET_USER,
+                "agency":int(AGENCY),
+                "user":int(AIRTICKET_USER),
                 "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
@@ -273,8 +273,8 @@ class AirportCreateBookingAPI(generics.GenericAPIView):
         if len(data['respond']['token']):
             token_payload=json.dumps({            
                 "context": {
-                    "agency":AGENCY,
-                    "user":AIRTICKET_USER,
+                    "agency":int(AGENCY),
+                    "user":int(AIRTICKET_USER),
                     "time":request.data['context']['time'],
                     "hash":hash,
                     "locale":request.data['context']['locale'],
@@ -296,13 +296,13 @@ class AirportBookingFormAPI(generics.GenericAPIView):
     serializer_class=AirportBookingFormSerializer
     def post(self, request):
         time=str(request.data['context']['time'])
-        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=AIRTICKET_USER)
+        hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
 
         payload=json.dumps({
         
             "context": {
-                "agency":AGENCY,
-                "user":AIRTICKET_USER,
+                "agency":int(AGENCY),
+                "user":int(AIRTICKET_USER),
                 "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
@@ -317,8 +317,8 @@ class AirportBookingFormAPI(generics.GenericAPIView):
         if len(data['respond']['token']):
             token_payload=json.dumps({            
                 "context": {
-                    "agency":AGENCY,
-                    "user":AIRTICKET_USER,
+                    "agency":int(AGENCY),
+                    "user":int(AIRTICKET_USER),
                     "time":request.data['context']['time'],
                     "hash":hash,
                     "locale":request.data['context']['locale'],
