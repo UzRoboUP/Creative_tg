@@ -213,7 +213,7 @@ class AirTicketAPIView(generics.GenericAPIView):
         try:
             response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
             data=response.json()
-            print(data)
+           
             if len(data['respond']['token']):
                 token_payload=json.dumps({            
                     "context": {
