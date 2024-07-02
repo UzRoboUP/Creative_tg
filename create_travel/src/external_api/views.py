@@ -232,10 +232,9 @@ class AirTicketAPIView(generics.GenericAPIView):
                 token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
                 return Response(data=token_response.json(), status=token_response.status_code)
         except Exception:
-            if len(data['respond']['token'])==0:
-                return Response(data=data['respond']['messages'], status=response.status_code)
+            return Response(data=data['respond']['messages'], status=response.status_code)
             
-            
+
 class AirportCodeAPIView(generics.ListAPIView):
     queryset=AirCityCodes.objects.all()
     serializer_class=AirportCodeSerializer
