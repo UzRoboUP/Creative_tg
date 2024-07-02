@@ -210,31 +210,32 @@ class AirTicketAPIView(generics.GenericAPIView):
             },
             "parameters":request.data['parameters']
         })
-
-        response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
-        data=response.json()
-        
-        if len(data['respond']['token']):
-            token_payload=json.dumps({            
-                "context": {
-                    "agency":AGENCY,
-                    "user":USER,
-                    "time":request.data['context']['time'],
-                    "hash":hash,
-                    "locale":request.data['context']['locale'],
-                    "time":time,
-                    "command": "SEARCHRESULT",
-                },
-                "parameters":{
-                    "token": data['respond']['token']
-                }
-            })
-            token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
-            return Response(data=token_response.json(), status=token_response.status_code)
-        else:
-            return Response(data=data['respond']['messages'], status=response.status_code)
-        
-
+        try:
+            response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
+            data=response.json()
+            
+            if len(data['respond']['token']):
+                token_payload=json.dumps({            
+                    "context": {
+                        "agency":AGENCY,
+                        "user":USER,
+                        "time":request.data['context']['time'],
+                        "hash":hash,
+                        "locale":request.data['context']['locale'],
+                        "time":time,
+                        "command": "SEARCHRESULT",
+                    },
+                    "parameters":{
+                        "token": data['respond']['token']
+                    }
+                })
+                token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
+                return Response(data=token_response.json(), status=token_response.status_code)
+        except Exception:
+            if len(data['respond']['token'])==0:
+                return Response(data=data['respond']['messages'], status=response.status_code)
+            
+            
 class AirportCodeAPIView(generics.ListAPIView):
     queryset=AirCityCodes.objects.all()
     serializer_class=AirportCodeSerializer
