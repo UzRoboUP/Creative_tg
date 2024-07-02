@@ -196,7 +196,7 @@ class AirTicketAPIView(generics.GenericAPIView):
 
     def post(self, request):
         time=str(request.data['context']['time'])
-        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=USER)
+        hash=md5_time_hashing(agency=AGENCY, password=PASSWORD_AIRTICKET, time=time, user=10659)
 
         payload=json.dumps({
             "context": {
