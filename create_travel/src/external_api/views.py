@@ -201,7 +201,7 @@ class AirTicketAPIView(generics.GenericAPIView):
         payload=json.dumps({
             "context": {
                 "agency":AGENCY,
-                "user":USER,
+                "user":10659,
                 "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
