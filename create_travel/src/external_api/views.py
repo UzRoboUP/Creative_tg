@@ -234,9 +234,9 @@ class AirTicketAPIView(generics.GenericAPIView):
                 
                 return Response(data=token_data, status=token_response.status_code)
             else:
-                return Response(data=data['respond']['messages'], status=response.status_code)
+                return Response(data=data, status=response.status_code)
         except Exception:
-            return Response(data=token_data['respond']['messages'], status=response.status_code)
+            return Response(data=token_data, status=response.status_code)
             
 
 class AirportCodeAPIView(generics.ListAPIView):
