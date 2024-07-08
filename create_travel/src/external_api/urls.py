@@ -10,6 +10,7 @@ urlpatterns=[
     path('airport/code/', view=views.AirportCodeAPIView.as_view(), name='airport_code'),
     path('airport/tickets/', view=views.AirTicketAPIView.as_view(), name='airtickets'),
     path('airport/create_booking/', view=views.AirportCreateBookingAPI.as_view(), name='airport_create_booking'),
+    path('airport/create_booking_token/', view=views.AirportCreateBookingTokenAPI.as_view(), name='airport_create_booking_token'),
     path('airport/booking_form/', view=views.AirportBookingFormAPI.as_view(), name='airport_booking_form'),
 ]
 

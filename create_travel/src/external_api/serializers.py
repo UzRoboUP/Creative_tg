@@ -182,6 +182,14 @@ class AirportBookingSerializer(serializers.Serializer):
     context=AirTicketContextSerializer()
     parameters=AirportCreateBookingParametrSerializer()
 
+class AirportBookingTokenAPISerializer(serializers.Serializer):
+    token=serializers.CharField(min_length=32, max_length=32)
+
+class AirportCreateBookingTokenSerializer(serializers.Serializer):
+    context=AirTicketContextSerializer()
+    parameters=AirportBookingTokenAPISerializer()
+    
+
 # creating Booking Proccess in AirTicket
 class AirportCustomerSerializer(serializers.Serializer):
     name=serializers.CharField(max_length=255)
@@ -232,70 +240,4 @@ class AirportBookingFormSerializer(serializers.Serializer):
     context=AirTicketContextSerializer()
     parameters=AirportBookingFormParameterSerializer()
 
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # TranseferSerializer
-# class TransferSerializer(serializers.Serializer):
-#     daparture_city=serializers.CharField()
-#     arrivial_city=serializers.CharField()
-#     where_from=serializers.CharField()
-#     where_to=serializers.CharField()
-#     time=serializers.DateField()
-#     submission_time=serializers.DateTimeField()
-#     number_of_passenger=serializers.IntegerField()
-#     number_of_luggage=serializers.IntegerField()
-#     baby_chair=serializers.BooleanField(default=False)
-#     stop_along_way=serializers.BooleanField(default=False)
-
-# # RentCarSerializer
-
-# class RentCarAdditionalInfoSerilaizer():
-#     vehicle_type=serializers.CharField()
-#     clutch_type=serializers.CharField()
-#     full_name=serializers.CharField()
-#     email=serializers.EmailField()
-#     contact_number=serializers.CharField()
-#     gps=serializers.BooleanField(default=False)
-#     winter_tire=serializers.BooleanField(default=False)
-
-# class RentCarSerilizer(serializers.Serializer):
-#     pickup_location=serializers.CharField()
-#     date_of_receiving=serializers.DateField()
-#     receipt_time=serializers.TimeField()
-#     return_date=serializers.DateField()
-#     return_time=serializers.TimeField()
-#     number_of_passenger=serializers.IntegerField()
-#     number_of_luggage=serializers.IntegerField()
-#     baby_chair=serializers.BooleanField(default=False)
-#     stop_along_way=serializers.BooleanField(default=False)
-#     additional_info=RentCarAdditionalInfoSerilaizer()
 

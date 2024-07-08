@@ -4,6 +4,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 import requests
 import json
@@ -11,7 +14,8 @@ import uuid
 
 from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAutoSearchSerializer, 
                           AirportCodeSerializer, AirportBookingSerializer, AirportBookingFormSerializer, 
-                          HotelPageSerializer,HotelBookingFinishSerializer, HotelBookingSerializer, HotelBookingFinishStatusSerializer)
+                          HotelPageSerializer,HotelBookingFinishSerializer, HotelBookingSerializer, 
+                          HotelBookingFinishStatusSerializer, AirportCreateBookingTokenSerializer)
 from .models import HotelSearch, AirCityCodes, PartnerOrderId
 from .hashing import md5_time_hashing
 from .filters import AviaRegionFilter
@@ -25,6 +29,8 @@ class AutoRegionSearchAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=RegionAutoSearchSerializer
     
+
+   
     def post(self, request):
         try:
             payload = json.dumps({
@@ -45,6 +51,7 @@ class HotelAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=HotelSerializer
     # permission_classes=[IsAuthenticated,]
+
 
     def post(self, request):
         try:
@@ -85,6 +92,7 @@ class HotelPageAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=HotelPageSerializer
 
+  
     def post(self, request):
         try:
             payload = json.dumps({
@@ -113,6 +121,7 @@ class HotelPageAPIView(generics.GenericAPIView):
 class HotelBookingFormAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=HotelBookingSerializer
+
 
     def post(self, request):
         # getting ip_address
@@ -148,7 +157,7 @@ class HotelBookingFormAPIView(generics.GenericAPIView):
 class HotelBookingFinishAPIView(generics.GenericAPIView):
     queryset=None
     serializer_class=HotelBookingFinishSerializer
-    
+
     def post(self, request):
         payload=json.dumps(request.data)
         headers = {
@@ -194,10 +203,11 @@ class AirTicketAPIView(generics.GenericAPIView):
     serializer_class=AirTicketRequestSerializer
     # permission_classes=[IsAuthenticated,]
 
+
     def post(self, request):
         time=str(request.data['context']['time'])
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
-    
+        
         payload=json.dumps({
             "context": {
                 "agency":int(AGENCY),
@@ -246,9 +256,15 @@ class AirportCodeAPIView(generics.ListAPIView):
     filterset_class=AviaRegionFilter
 
 
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
 class AirportCreateBookingAPI(generics.GenericAPIView):
     queryset=None
     serializer_class=AirportBookingSerializer
+    
+
     def post(self, request):
         time=str(request.data['context']['time'])
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
@@ -267,11 +283,24 @@ class AirportCreateBookingAPI(generics.GenericAPIView):
             "parameters":request.data['parameters']
 
         })
+        try:
+                
+            response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
+            data=response.json()
+            
+            return Response(data=data, status=response.status_code)
+        except Exception:
+            return Response(data=data['respond']['messages'], status=response.status_code)
 
-        response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
-        data=response.json()
-        if len(data['respond']['token']):
-            token_payload=json.dumps({            
+
+class AirportCreateBookingTokenAPI(generics.GenericAPIView):
+    queryset=None
+    serializer_class=AirportCreateBookingTokenSerializer
+
+    def post(self, request):
+        time=str(request.data['context']['time'])
+        hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
+        token_payload=json.dumps({            
                 "context": {
                     "agency":int(AGENCY),
                     "user":int(AIRTICKET_USER),
@@ -281,19 +310,22 @@ class AirportCreateBookingAPI(generics.GenericAPIView):
                     "time":time,
                     "command": "SELECTRESULT",
                 },
-                "parameters":{
-                    "token": data['respond']['token']
-                }
+                "parameters": request.data['parameters']
+                
             })
+        try:
+
             token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
-            return Response(data=token_response.json(), status=token_response.status_code)
-        else:
-            return Response(data=data['respond']['messages'], status=response.status_code)
-        
+            token_data=token_response.json()
+            return Response(data=token_data, status=token_response.status_code)
+        except Exception:
+            return Response(data=token_data['respond']['messages'], status=token_response.status_code)
+    
 
 class AirportBookingFormAPI(generics.GenericAPIView):
     queryset=None
     serializer_class=AirportBookingFormSerializer
+
     def post(self, request):
         time=str(request.data['context']['time'])
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
@@ -312,28 +344,37 @@ class AirportBookingFormAPI(generics.GenericAPIView):
             "parameters":request.data['parameters']
 
         })
-        response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
-        data=response.json()
-        if len(data['respond']['token']):
-            token_payload=json.dumps({            
-                "context": {
-                    "agency":int(AGENCY),
-                    "user":int(AIRTICKET_USER),
-                    "time":request.data['context']['time'],
-                    "hash":hash,
-                    "locale":request.data['context']['locale'],
-                    "time":time,
-                    "command": "CREATERESULT",
-                },
-                "parameters":{
-                    "token": data['respond']['token']
-                }
-            })
-            token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
-            return Response(data=token_response.json(), status=token_response.status_code)
-        else:
-            return Response(data=data['respond']['messages'], status=response.status_code)
-    
+        try:
+                
+            response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
+            data=response.json()
+            if len(data['respond']['token']):
+                token_payload=json.dumps({            
+                    "context": {
+                        "agency":int(AGENCY),
+                        "user":int(AIRTICKET_USER),
+                        "time":request.data['context']['time'],
+                        "hash":hash,
+                        "locale":request.data['context']['locale'],
+                        "time":time,
+                        "command": "CREATERESULT",
+                    },
+                    "parameters":{
+                        "token": data['respond']['token']
+                    }
+                })
+                token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
+                token_data=token_response.json()
+
+                return Response(data=token_response.json(), status=token_response.status_code)
+            else:
+                return Response(data=data['respond']['messages'], status=response.status_code)
+        except Exception:
+            return Response(data=token_data['respond']['messages'], status=response.status_code)
+            
+
+
+
 class AirportBookingStatus(generics.GenericAPIView):
     pass
 
