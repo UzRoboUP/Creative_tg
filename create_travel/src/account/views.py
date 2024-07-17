@@ -24,3 +24,6 @@ class UserSubscriptionCreateView(generics.CreateAPIView):
     queryset=models.User.objects.all()
     serializer_class=serializers.UserSubscribetionSerializer
 
+class RetrieveUserDataView(generics.RetrieveAPIView):
+    queryset=models.User.objects.all()
+    serializer_class=serializers.UserRetrieveDataSerializer

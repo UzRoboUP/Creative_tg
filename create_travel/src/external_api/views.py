@@ -2,10 +2,12 @@ from django.shortcuts import render
 from rest_framework import generics, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework.decorators import action
 from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 import requests
@@ -15,7 +17,8 @@ import uuid
 from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAutoSearchSerializer, 
                           AirportCodeSerializer, AirportBookingSerializer, AirportBookingFormSerializer, 
                           HotelPageSerializer,HotelBookingFinishSerializer, HotelBookingSerializer, 
-                          HotelBookingFinishStatusSerializer, AirportCreateBookingTokenSerializer)
+                          HotelBookingFinishStatusSerializer, AirportCreateBookingTokenSerializer, 
+                          AirportBookingStatusSerializer)
 from .models import HotelSearch, AirCityCodes, PartnerOrderId
 from .hashing import md5_time_hashing
 from .filters import AviaRegionFilter
@@ -23,7 +26,8 @@ from account.models import User
 
 from core.settings.base import (HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL,
                                 HOTEL_REGION_ID_URL,AIRTICKET_USER, PASSWORD_AIRTICKET, AGENCY,AIR_TICKET_URL,
-                                LOGIN, LOGIN_PASSWORD, HOTEL_PAGE, HOTEL_BOOKING_FORM, HOTEL_BOOKING_FORM_FINISH, HOTEL_BOOKING_FINISH_STATUS)
+                                LOGIN, LOGIN_PASSWORD, HOTEL_PAGE, HOTEL_BOOKING_FORM, HOTEL_BOOKING_FORM_FINISH, 
+                                HOTEL_BOOKING_FINISH_STATUS, HOTEL_BOOKING_CANCELLATION)
 
 class AutoRegionSearchAPIView(generics.GenericAPIView):
     queryset=None
@@ -193,9 +197,18 @@ class HotelBookingFinishStatusAPIView(generics.GenericAPIView):
 class HotelBookingFinishCancelation(generics.GenericAPIView):
     queryset=None
     serializer_class=HotelBookingFinishStatusSerializer
-    
     def post(self, request):
-        return request.data
+        payload=json.dumps(request.data)
+        headers = {
+                        'Content-Type': 'application/json'
+                    }
+        try:
+            hotel_booking_form_finish_finish=requests.post(url=HOTEL_BOOKING_CANCELLATION,auth=(HOTEL_KEY_ID,HOTEL_KEY_TOKEN_TEST), data=payload, headers=headers)
+            data=hotel_booking_form_finish_finish.json()
+            return Response(data=data)
+        except Response:
+            return Response(data=data['error'])
+    
 
 
 class AirTicketAPIView(generics.GenericAPIView):
@@ -314,7 +327,6 @@ class AirportCreateBookingTokenAPI(generics.GenericAPIView):
                 
             })
         try:
-
             token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
             token_data=token_response.json()
             return Response(data=token_data, status=token_response.status_code)
@@ -375,8 +387,36 @@ class AirportBookingFormAPI(generics.GenericAPIView):
 
 
 
-class AirportBookingStatus(generics.GenericAPIView):
-    pass
+# class AirportBookingStatusViewSet(viewsets.ModelViewSet):
+#     queryset=None
+#     serializer_class=AirportBookingStatusSerializer
 
-class AirportBookingCancellation(generics.GenericAPIView):
-    pass
+
+
+#     def order_transaction_status(self, request, command):
+#         def inner_function(command):
+#             time=str(request.data['context']['time'])
+#             hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
+#             token_payload=json.dumps({            
+#                     "context": {
+#                         "agency":int(AGENCY),
+#                         "user":int(AIRTICKET_USER),
+#                         "time":request.data['context']['time'],
+#                         "hash":hash,
+#                         "locale":request.data['context']['locale'],
+#                         "time":time,
+#                         "command": command,
+#                     },
+#                     "parameters": request.data['parameters']
+                    
+#                 })
+#             try:
+#                 token_response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=token_payload)
+#                 token_data=token_response.json()
+#                 return Response(data=token_data, status=token_response.status_code)
+#             except Exception:
+#                 return Response(data=token_data['respond']['messages'], status=token_response.status_code)
+            
+#         result=inner_function(command)
+#         return result
+    

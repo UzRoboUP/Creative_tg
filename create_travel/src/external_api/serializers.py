@@ -240,4 +240,7 @@ class AirportBookingFormSerializer(serializers.Serializer):
     context=AirTicketContextSerializer()
     parameters=AirportBookingFormParameterSerializer()
 
-
+class AirportBookingStatusSerializer(serializers.Serializer):
+    context=AirTicketContextSerializer()
+    parameters=AirportBookingTokenAPISerializer()
+    
