@@ -20,7 +20,6 @@ class HotelSearch(models.Model):
 
 
 class AirCityCodes(models.Model):
-    id=models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     country = models.CharField(max_length=255)
     airport=models.CharField(max_length=255)
     code =models.CharField(max_length=3)
