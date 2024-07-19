@@ -138,7 +138,7 @@ class AirTicketParametrSerializer(serializers.Serializer):
     preferredAirlines=serializers.ListField(required=False)
 
 class AirTicketContextSerializer(serializers.Serializer):
-    time=serializers.DateTimeField()
+    # time=serializers.DateTimeField()
     locale=serializers.CharField(max_length=2)
 
 

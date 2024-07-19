@@ -24,6 +24,8 @@ from .hashing import md5_time_hashing
 from .filters import AviaRegionFilter
 from account.models import User
 
+from .utils import current_time
+
 from core.settings.base import (HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL,
                                 HOTEL_REGION_ID_URL,AIRTICKET_USER, PASSWORD_AIRTICKET, AGENCY,AIR_TICKET_URL,
                                 LOGIN, LOGIN_PASSWORD, HOTEL_PAGE, HOTEL_BOOKING_FORM, HOTEL_BOOKING_FORM_FINISH, 
@@ -218,14 +220,13 @@ class AirTicketAPIView(generics.GenericAPIView):
 
 
     def post(self, request):
-        time=str(request.data['context']['time'])
+        time=current_time()
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
         
         payload=json.dumps({
             "context": {
                 "agency":int(AGENCY),
                 "user":int(AIRTICKET_USER),
-                "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
                 "time":time,
@@ -242,7 +243,6 @@ class AirTicketAPIView(generics.GenericAPIView):
                     "context": {
                         "agency":int(AGENCY),
                         "user":int(AIRTICKET_USER),
-                        "time":request.data['context']['time'],
                         "hash":hash,
                         "locale":request.data['context']['locale'],
                         "time":time,
@@ -279,7 +279,7 @@ class AirportCreateBookingAPI(generics.GenericAPIView):
     
 
     def post(self, request):
-        time=str(request.data['context']['time'])
+        time=current_time()
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
 
         payload=json.dumps({
@@ -287,7 +287,6 @@ class AirportCreateBookingAPI(generics.GenericAPIView):
             "context": {
                 "agency":int(AGENCY),
                 "user":int(AIRTICKET_USER),
-                "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
                 "time":time,
@@ -311,13 +310,12 @@ class AirportCreateBookingTokenAPI(generics.GenericAPIView):
     serializer_class=AirportCreateBookingTokenSerializer
 
     def post(self, request):
-        time=str(request.data['context']['time'])
+        time=current_time()
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
         token_payload=json.dumps({            
                 "context": {
                     "agency":int(AGENCY),
                     "user":int(AIRTICKET_USER),
-                    "time":request.data['context']['time'],
                     "hash":hash,
                     "locale":request.data['context']['locale'],
                     "time":time,
@@ -339,7 +337,7 @@ class AirportBookingFormAPI(generics.GenericAPIView):
     serializer_class=AirportBookingFormSerializer
 
     def post(self, request):
-        time=str(request.data['context']['time'])
+        time=current_time()
         hash=md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
 
         payload=json.dumps({
@@ -347,7 +345,6 @@ class AirportBookingFormAPI(generics.GenericAPIView):
             "context": {
                 "agency":int(AGENCY),
                 "user":int(AIRTICKET_USER),
-                "time":request.data['context']['time'],
                 "hash":hash,
                 "locale":request.data['context']['locale'],
                 "time":time,
@@ -365,7 +362,6 @@ class AirportBookingFormAPI(generics.GenericAPIView):
                     "context": {
                         "agency":int(AGENCY),
                         "user":int(AIRTICKET_USER),
-                        "time":request.data['context']['time'],
                         "hash":hash,
                         "locale":request.data['context']['locale'],
                         "time":time,

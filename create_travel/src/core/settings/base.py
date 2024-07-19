@@ -234,6 +234,7 @@ AUDITLOG_INCLUDE_ALL_MODELS = True
 LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Asia/Tashkent'
+USE_TZ = True
 
 USE_I18N = True
 
