@@ -8,6 +8,7 @@ class AviaRegionFilter(filters.FilterSet):
         model=AirCityCodes
         fields=['code']
 
+
 class HotelPartnerIdFilter(filters.FilterSet):
     class Meta:
         model=PartnerOrderId
