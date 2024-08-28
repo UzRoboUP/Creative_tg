@@ -23,7 +23,7 @@ HOTEL_BOOKING_FORM_FINISH=config("HOTEL_BOOKING_FORM_FINISH")
 HOTEL_REGION_ID_URL=config("HOTEL_REGION_ID_URL")
 HOTEL_BOOKING_FINISH_STATUS=config("HOTEL_BOOKING_FINISH_STATUS")
 HOTEL_BOOKING_CANCELLATION=config("HOTEL_BOOKING_CANCELLATION")
-
+HOTEL_CONTRACT_DATA_INFORMATION=config("HOTEL_CONTRACT_DATA_INFORMATION")
 
 # AVIATICKET DATA
 AGENCY=config("AGENCY")
@@ -68,7 +68,7 @@ DEV_APPS = [
     'axes',
     # "django_celery_results",
     # "django_celery_beat",
-    "drf_yasg",
+    'drf_spectacular',
     'django_filters',
     
 ]
@@ -159,6 +159,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -290,3 +291,12 @@ try:
     from .jazzmin import JAZZMIN_UI_TWEAKS, JAZZMIN_SETTINGS
 except ImportError:
     from jazzmin.settings import JAZZMIN_UI_TWEAKS, JAZZMIN_SETTINGS
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CTG Project API',
+    'DESCRIPTION': 'CTG project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}

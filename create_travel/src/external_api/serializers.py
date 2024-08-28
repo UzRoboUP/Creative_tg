@@ -48,27 +48,22 @@ class PartnerOrderIdSerializer(serializers.ModelSerializer):
         fields=['partner_order_id']
         
 class HotelBookingSerializer(serializers.Serializer):
-    # partner_order_id=serializers.CharField(min_length=1, max_length=256, required=False)
     book_hash=serializers.CharField(min_length=1, max_length=256)
     language=serializers.CharField(min_length=2, max_length=2)
-    # user_ip=serializers.IPAddressField(required=False)
+ 
 
 class HotelOrderBookingFinishPartnerSerializer(serializers.Serializer):
     partner_order_id=serializers.CharField(min_length=1, max_length=256)
-    amount_sell_b2b2c=serializers.DecimalField(max_digits=100000000, decimal_places=10)
-
 
 class HotelOrderBookingFinishPaymentTypeSerializer(serializers.Serializer):
     PAYMENT_TYPE_CHOICE=(
-        ('N', 'now'),
-        ('H','hotel'),
-        ('D','deposit')
+        ('now', 'now'),
+        ('hotel','hotel'),
+        ('deposit','deposit')
     )
     type=serializers.ChoiceField(choices=PAYMENT_TYPE_CHOICE)
-    amount=serializers.DecimalField(max_digits=100000000, decimal_places=10)
+    amount=serializers.DecimalField(max_digits=10, decimal_places=10)
     currency_code=serializers.CharField(min_length=3, max_length=3)
-
-
 
 
 class HotelOrderBookingFinishGuestSerializer(serializers.Serializer):
@@ -95,24 +90,85 @@ class HotelOrderBookingFinishSupplierDataSerializer(serializers.Serializer):
     phone=serializers.CharField(min_length=1, max_length=32)
     email=serializers.EmailField()
 
-
-
+class HotelBookingHistoryListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.HotelOrderHistory
+        fields=[ 
+                'order_id',
+                'order_cost',
+                'guests',
+                'check_in',
+                'check_out',
+                'hotel_id',
+                'hotel_name',
+                'room_name',
+                'country',
+                'city',
+                'free_cancelation']
 
 class HotelBookingFinishSerializer(serializers.Serializer):
     arrival_datetime=serializers.DateField(required=False)
-    language=serializers.CharField(max_length=2, min_length=2)
-    partner=HotelOrderBookingFinishPartnerSerializer()
+    language=serializers.CharField(max_length=2)
+    partner=HotelOrderBookingFinishPartnerSerializer()  
     payment_type=HotelOrderBookingFinishPaymentTypeSerializer()
-    return_path=serializers.CharField(min_length=1, max_length=256, required=False)
     rooms=serializers.ListField(child=HotelOrderBookingFinishRoomSerializer())
     user=HotelOrderBookingFinishUserSerializer()
     supplier_data=HotelOrderBookingFinishSupplierDataSerializer()
+    history_list=HotelBookingHistoryListSerializer()
+
+class ContractDatasSerializer(serializers.Serializer):
+    agreement_number=serializers.CharField(max_length=255)
+    overpay=serializers.DecimalField(max_digits=10, decimal_places=2)
+    overdue_debt=serializers.DecimalField(max_digits=10, decimal_places=2)
+    unpaid_non_ref_orders_sum=serializers.DecimalField(max_digits=10, decimal_places=2)
+    unpaid_ref_orders_sum=serializers.DecimalField(max_digits=10, decimal_places=2)
+    unpaid_orders_sum=serializers.DecimalField(max_digits=10, decimal_places=2)
+
+class ContractDetailsSerializer(serializers.Serializer):
+    credit_limit=serializers.DecimalField(max_digits=10, decimal_places=2)
+    deposit=serializers.DecimalField(max_digits=10, decimal_places=2)
+    max_booking_price=serializers.DecimalField(max_digits=10, decimal_places=2)
+    overdue_debt=serializers.DecimalField(max_digits=10, decimal_places=2)
+    unpaid_non_ref_orders_sum=serializers.DecimalField(max_digits=10, decimal_places=2)
+    unpaid_ref_orders_sum=serializers.DecimalField(max_digits=10, decimal_places=2)
+    unpaid_orders_sum=serializers.DecimalField(max_digits=10, decimal_places=2)
+    contract_overpay=serializers.DecimalField(max_digits=10, decimal_places=2)
+    reporting_currency=serializers.CharField(max_length=255)
+   
+
+class HotelFinancialInformationSerializer(serializers.Serializer):
+    contract_datas=serializers.ListField(child=ContractDatasSerializer())
+    contract=ContractDetailsSerializer()
+
+class PartnerOrderIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.PartnerOrderId
+        fields='__all__'
 
 class HotelBookingFinishStatusSerializer(serializers.Serializer):
     partner_order_id=serializers.CharField(min_length=1, max_length=256)
 
+class ClientDepositSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=models.ClientDeposit
+        fields='__all__'
+
+class ClientSpentDepositSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=models.ClientSpentDeposit
+        fields='__all__'
+
 ################################################################################
-        
+
+class AirTicketTokenSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=models.AirTicketStatusToken
+        fields='__all__'
+                
+
 # #AirticketSerializer
 class AviaLocationSerializer(serializers.Serializer):
     code=serializers.CharField(max_length=3)
@@ -151,7 +207,7 @@ class AirportCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.AirCityCodes
         fields=['country','airport','code']
-
+  
 
 # booking section of airport
 class FlightSerializer(serializers.Serializer):
@@ -229,7 +285,14 @@ class AirportPassengerDetailSerializer(serializers.Serializer):
 class AirportSinglePassengerSerializer(serializers.Serializer):
     passenger=serializers.ListField(child=AirportPassengerDetailSerializer())
 
-
+class AirportHistoryListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.AirTicketOrderhistory
+        fields=["travel_duration",
+                "carrier",
+                "fare_seats",
+                "segments",
+                "fare_total",]
 class AirportBookingFormParameterSerializer(serializers.Serializer):
     flightsGroup=FlightsGroupSerializer()
     token=serializers.CharField(max_length=255)
@@ -239,8 +302,9 @@ class AirportBookingFormParameterSerializer(serializers.Serializer):
 class AirportBookingFormSerializer(serializers.Serializer):
     context=AirTicketContextSerializer()
     parameters=AirportBookingFormParameterSerializer()
+    history_list=AirportHistoryListSerializer()
 
 class AirportBookingStatusSerializer(serializers.Serializer):
     context=AirTicketContextSerializer()
     parameters=AirportBookingTokenAPISerializer()
-    
+
