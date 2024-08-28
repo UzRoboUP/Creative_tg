@@ -19,20 +19,20 @@ jobs:
     - name: GIT pulling from github repository
       uses: appleboy/scp-action@master
       with:
-        HOST: ${{ secrets.HOST }}
+        HOST: ${{ secrets.DISKONT_HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        KEY: ${{ secrets.DISKONT_SSH_PRIVATE_KEY }}
         source: "."
         target: "${{ env.TARGET_FOLDER }}"
 
     - name: Command using from script
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
+        host: ${{ secrets.DISKONT_HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        KEY: ${{ secrets.DISKONT_SSH_PRIVATE_KEY }}
         script_stop: true
         script: |
           git --work-tree="${{ env.TARGET_FOLDER }}" --git-dir="${{ env.TARGET_FOLDER }}/.git" clean -f .
