@@ -466,25 +466,21 @@ class AirportBookingFormAPI(generics.GenericAPIView):
                         "token": data['respond']['token']
                     }
                 }
+                try:
+                    token_response = requests.post(url=AIR_TICKET_URL, auth=(LOGIN, LOGIN_PASSWORD), json=token_payload)
+                    token_response.raise_for_status()
+                    token_data = token_response.json()
 
-                token_response = requests.post(url=AIR_TICKET_URL, auth=(LOGIN, LOGIN_PASSWORD), json=token_payload)
-                token_response.raise_for_status()
-                token_data = token_response.json()
-
-                if token_data['respond']['status'] == 'BOOKING':
-                    AirTicketStatusToken.objects.create(user=self.request.user, token=token_data['respond']['token'])
-                    AirTicketOrderhistory.objects.create(user=self.request.user, **history_data)
-                
-                return Response(data=token_data, status=token_response.status_code)
-
-        except requests.exceptions.RequestException as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        except KeyError as e:
-            return Response({"error": f"Missing key: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({"error": "Unknown error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+                    if token_data['respond']['status'] == 'BOOKING':
+                        AirTicketStatusToken.objects.create(user=self.request.user, token=token_data['respond']['token'])
+                        AirTicketOrderhistory.objects.create(user=self.request.user, **history_data)
+                    
+                    return Response(data=token_data, status=token_response.status_code)
+                except Exception:
+                    return Response(data=token_data['respond']['messages'], status=response.status_code)   
+        except Exception:
+            return Response(data=data, status=response.status_code)  
+            
 
 class AirportBookingStatusView(generics.GenericAPIView):
     queryset=None
