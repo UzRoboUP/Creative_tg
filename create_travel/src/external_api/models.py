@@ -155,12 +155,7 @@ class AirTicketOrderhistory(models.Model):
                            blank=True, 
                            null=True, 
                            verbose_name=_("Пользователь"))
-    travel_duration=models.IntegerField(blank=True, null=True, verbose_name=_(""))
-    carrier=models.JSONField(null=True, blank=True, verbose_name='carrier')
-    fare_seats=models.JSONField(null=True,blank=True, verbose_name='fare_seats')
-    segments=models.JSONField(null=True, blank=True, verbose_name="segments")
-    fare_total=models.JSONField(null=True, blank=True, verbose_name="fare_total")
-
+    flights_group=models.JSONField(blank=True, null=True, verbose_name=_(""))
 
 
 

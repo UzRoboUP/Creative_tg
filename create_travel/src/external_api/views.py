@@ -164,7 +164,7 @@ class HotelPageAPIView(generics.GenericAPIView):
             return Response(data=hotel_page, 
                             status=hotel_page_response.status_code)
         except Exception:
-            return Response(data=hotel_page_response['error'], 
+            return Response(data=hotel_page['error'], 
                                 status=hotel_page_response.status_code)
 
 class HotelBookingFormAPIView(generics.GenericAPIView):
@@ -429,30 +429,30 @@ class AirportBookingFormAPI(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+     
+        time = current_time()
+        hash = md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
+        history_data = request.data.get('history_list')
+        locale = request.data.get('context', {}).get('locale')
+        parameters = request.data.get('parameters')
+        
+        payload = {
+            "context": {
+                "agency": int(AGENCY),
+                "user": int(AIRTICKET_USER),
+                "hash": hash,
+                "locale": locale,
+                "time": time,
+                "command": "CREATEBOOKING",
+            },
+            "parameters": parameters
+        }
         try:
-            time = current_time()
-            hash = md5_time_hashing(agency=int(AGENCY), password=PASSWORD_AIRTICKET, time=time, user=int(AIRTICKET_USER))
-            history_data = request.data.get('history_list')
-            locale = request.data.get('context', {}).get('locale')
-            parameters = request.data.get('parameters')
-            
-            payload = {
-                "context": {
-                    "agency": int(AGENCY),
-                    "user": int(AIRTICKET_USER),
-                    "hash": hash,
-                    "locale": locale,
-                    "time": time,
-                    "command": "CREATEBOOKING",
-                },
-                "parameters": parameters
-            }
-
             response = requests.post(url=AIR_TICKET_URL, auth=(LOGIN, LOGIN_PASSWORD), json=payload)
             response.raise_for_status()  # Raise an exception for bad status codes
             data = response.json()
 
-            if 'token' in data.get('respond', {}):
+            if data['respond']['token']:
                 token_payload = {
                     "context": {
                         "agency": int(AGENCY),
@@ -476,8 +476,11 @@ class AirportBookingFormAPI(generics.GenericAPIView):
                         AirTicketOrderhistory.objects.create(user=self.request.user, **history_data)
                     
                     return Response(data=token_data, status=token_response.status_code)
-                except Exception:
-                    return Response(data=token_data['respond']['messages'], status=response.status_code)   
+                except Exception as e:
+                  
+                        return Response(data=token_data['respond']['messages'], status=response.status_code) 
+                    
+      
         except Exception:
             return Response(data=data, status=response.status_code)  
             
