@@ -107,7 +107,7 @@ class HotelBookingHistoryListSerializer(serializers.ModelSerializer):
                 'free_cancelation']
 
 class HotelBookingFinishSerializer(serializers.Serializer):
-    arrival_datetime=serializers.DateField(required=False)
+    arrival_datetime=serializers.DateTimeField(required=False)
     language=serializers.CharField(max_length=2)
     partner=HotelOrderBookingFinishPartnerSerializer()  
     payment_type=HotelOrderBookingFinishPaymentTypeSerializer()
