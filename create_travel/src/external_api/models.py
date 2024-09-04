@@ -29,7 +29,7 @@ class AirCityCodes(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
 
     def __str__(self) -> str:
-        return self.airport +" " + self.code
+        return f"{self.created_at}"
 
     class Meta:
         verbose_name_plural = 'airport_code_list'
@@ -53,7 +53,7 @@ class ClientDeposit(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
     user=models.ForeignKey(to=User, on_delete=models.SET_NULL ,blank=True, null=True, verbose_name=_("Пользователь"))
     amount=models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, verbose_name=_("Количество"))
-    description=models.TextField(null=True, blank=True, verbose_name=_("Заметка "))
+    description=models.TextField(null=True, blank=True, verbose_name=_("Заметка"))
 
     def save(self, *args, **kwargs):
         self.updated_at = now()
@@ -62,7 +62,7 @@ class ClientDeposit(models.Model):
         return self
     
     def __str__(self):
-        return self.user.username
+        return f"{self.created_at}"
     
 class ClientSpentDeposit(models.Model):
     class Meta:
@@ -78,7 +78,7 @@ class ClientSpentDeposit(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
     user=models.ForeignKey(to=User, on_delete=models.SET_NULL ,blank=True, null=True, verbose_name=_("Пользователь"))
     amount=models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, verbose_name=_("Количество"))
-    description=models.TextField(null=True, blank=True, verbose_name=_("Заметка "))
+    description=models.TextField(null=True, blank=True, verbose_name=_("Заметка"))
     
     def save(self, *args, **kwargs):
         self.updated_at = now()
@@ -86,7 +86,7 @@ class ClientSpentDeposit(models.Model):
         return self
     
     def __str__(self):
-        return self.user.username
+        return f"{self.created_at}"
 
 class PartnerOrderId(models.Model):
     class Meta:
@@ -106,7 +106,7 @@ class PartnerOrderId(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name=_("Дата изменения"))
           
     def __str__(self) -> str:
-        return self.order_id
+        return f"{self.created_at}"
 
 class HotelOrderHistory(models.Model):
     class Meta:
@@ -139,7 +139,7 @@ class HotelOrderHistory(models.Model):
         return self
     
     def __str__(self):
-        return self.user.username
+        return f"{self.created_at}"
     
 class AirTicketOrderhistory(models.Model):
     class Meta:
@@ -155,9 +155,10 @@ class AirTicketOrderhistory(models.Model):
                            blank=True, 
                            null=True, 
                            verbose_name=_("Пользователь"))
-    flights_group=models.JSONField(blank=True, null=True, verbose_name=_(""))
+    fligths_group=models.JSONField(blank=True, null=True, verbose_name=_("группа полетов"))
 
-
+    def __str__(self) -> str:
+        return f"{self.created_at}"
 
 class AirTicketStatusToken(models.Model):
     class Meta:
@@ -172,8 +173,7 @@ class AirTicketStatusToken(models.Model):
     token=models.CharField(max_length=255,null=True, blank=True,verbose_name=_("Токен"))
 
     def __str__(self) -> str:
-        return self.user
-    
+        return f"{self.created_at}"    
     def save(self, *args, **kwargs):
         self.updated_at = now()
         super(AirTicketStatusToken, self).save(*args, **kwargs)

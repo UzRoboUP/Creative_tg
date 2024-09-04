@@ -22,12 +22,20 @@ class AirTicketTokenAdmin(admin.ModelAdmin):
     search_fields=['user__username', 'token']
     list_display=['user', 'token', 'created_at']
     list_display_links=['user', 'token', 'created_at']
+
+
+class AirTicketHistoryAdmin(admin.ModelAdmin):
+    search_fields=['user__username']
+    list_display=['user', 'created_at']
+    list_display_links=['user','created_at']
+    
+
 admin.site.register(ClientDeposit, ClientDepositAdmin)
 admin.site.register(ClientSpentDeposit, ClientSpentDepositAdmin)
 admin.site.register(HotelOrderHistory, HotelBookingHistoryAdmin)
 admin.site.register(AirTicketStatusToken, AirTicketTokenAdmin)
 admin.site.register(PartnerOrderId)
-# admin.site.register(AirTicketOrderhistory)
+admin.site.register(AirTicketOrderhistory, AirTicketHistoryAdmin)
 
 
 
