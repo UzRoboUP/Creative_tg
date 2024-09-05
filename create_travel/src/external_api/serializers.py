@@ -96,6 +96,7 @@ class HotelBookingHistoryListSerializer(serializers.ModelSerializer):
         fields=[ 
                 'order_id',
                 'order_cost',
+                'partner_order_id',
                 'guests',
                 'check_in',
                 'check_out',
@@ -290,7 +291,7 @@ class AirportHistoryListSerializer(serializers.ModelSerializer):
         model=models.AirTicketOrderhistory
         fields='__all__'
 class AirportBookingFormParameterSerializer(serializers.Serializer):
-    flightsGroup=FlightsGroupSerializer()
+    fligthsGroup=FlightsGroupSerializer()
     token=serializers.CharField(max_length=255)
     customer=AirportCustomerSerializer()
     passengers=AirportSinglePassengerSerializer()

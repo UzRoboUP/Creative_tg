@@ -2957,3 +2957,31 @@ AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and
 Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
 Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
 AXES: Getting access attempts that are newer than 2024-09-05 05:12:59.765052+00:00
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-09-05 15:16:17.491257+00:00
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-09-05 15:17:12.181286+00:00
+AXES: Cleaned up 0 expired access attempts from database that were older than 2024-09-05 15:17:12.181286+00:00
+AXES: Successful login by {username: "********************", ip_address: "********************", user_agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0", path_info: "/admin/login/"}.
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
