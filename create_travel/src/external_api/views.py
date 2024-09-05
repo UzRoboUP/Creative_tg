@@ -518,7 +518,7 @@ class AirportBookingStatusView(generics.GenericAPIView):
 
             return Response(data=data, status=response.status_code)
         except Exception:
-            return Response(data=data['respond']['messages'], status=response.status_code)
+            return Response(data=data, status=response.status_code)
             
 class AirportBookingCancellation(generics.GenericAPIView):
     queryset=None
@@ -549,7 +549,7 @@ class AirportBookingCancellation(generics.GenericAPIView):
 
             return Response(data=data, status=response.status_code)
         except Exception:
-            return Response(data=data['respond']['messages'], status=response.status_code)
+            return Response(data=data, status=response.status_code)
         
 class AirportBookingDisplayOrder(generics.GenericAPIView):
     queryset=None
@@ -578,7 +578,7 @@ class AirportBookingDisplayOrder(generics.GenericAPIView):
 
             return Response(data=data, status=response.status_code)
         except Exception:
-            return Response(data=data['respond']['messages'], status=response.status_code)
+            return Response(data=data, status=response.status_code)
         
 class AirportBookingDisplayCreate(generics.GenericAPIView):
     queryset=None
@@ -607,7 +607,7 @@ class AirportBookingDisplayCreate(generics.GenericAPIView):
 
             return Response(data=data, status=response.status_code)
         except Exception:
-            return Response(data=data['respond']['messages'], status=response.status_code)
+            return Response(data=data, status=response.status_code)
 
 class AirportBookingDisplayTickets(generics.GenericAPIView):
     queryset=None
@@ -636,7 +636,7 @@ class AirportBookingDisplayTickets(generics.GenericAPIView):
 
             return Response(data=data, status=response.status_code)
         except Exception:
-            return Response(data=data['respond']['messages'], status=response.status_code)
+            return Response(data=data, status=response.status_code)
 
 
 class AirTicketTokenListView(generics.ListAPIView):
