@@ -22,7 +22,7 @@ from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAut
 from .models import (AirCityCodes, PartnerOrderId, ClientDeposit,AirTicketOrderhistory,
                      AirTicketStatusToken, HotelOrderHistory, ClientSpentDeposit)
 from .hashing import md5_time_hashing
-from .filters import AviaRegionFilter
+from .filters import AviaRegionFilter, HotelPartnerIdFilter
 from account.models import User
 
 from .utils import current_time
@@ -289,6 +289,9 @@ class HotelBookedHistoryListView(generics.ListAPIView):
 class HotelPartnerOrderIdAPIView(generics.ListAPIView):
     queryset=PartnerOrderId.objects.all()
     serializer_class=PartnerOrderIdSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class=HotelPartnerIdFilter
+    permission_classes=[IsAuthenticated]
 
     def get_queryset(self,):
         queryset=PartnerOrderId.objects.filter(user=self.request.user)

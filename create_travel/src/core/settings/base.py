@@ -43,7 +43,7 @@ ALLOWED_IPS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    # 'jazzmin',
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
