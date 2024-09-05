@@ -291,7 +291,7 @@ class AirportHistoryListSerializer(serializers.ModelSerializer):
         model=models.AirTicketOrderhistory
         fields='__all__'
 class AirportBookingFormParameterSerializer(serializers.Serializer):
-    fligthsGroup=FlightsGroupSerializer()
+    flightsGroup=FlightsGroupSerializer()
     token=serializers.CharField(max_length=255)
     customer=AirportCustomerSerializer()
     passengers=AirportSinglePassengerSerializer()

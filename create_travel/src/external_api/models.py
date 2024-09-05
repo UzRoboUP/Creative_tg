@@ -155,7 +155,7 @@ class AirTicketOrderhistory(models.Model):
                            blank=True, 
                            null=True, 
                            verbose_name=_("Пользователь"))
-    fligths_group=models.JSONField(blank=True, null=True, verbose_name=_("группа полетов"))
+    flights_group=models.JSONField(blank=True, null=True, verbose_name=_("группа полетов"))
 
     def __str__(self) -> str:
         return f"{self.created_at}"
