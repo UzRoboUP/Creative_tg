@@ -575,7 +575,7 @@ class AirportBookingDisplayOrder(generics.GenericAPIView):
         try:
             response=requests.post(url=AIR_TICKET_URL,auth=(LOGIN,LOGIN_PASSWORD), data=payload)
             data=response.json()
-
+            
             return Response(data=data, status=response.status_code)
         except Exception:
             return Response(data=data, status=response.status_code)
