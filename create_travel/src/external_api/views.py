@@ -475,8 +475,8 @@ class AirportBookingFormAPI(generics.GenericAPIView):
                     token_data = token_response.json()
 
                     if token_data['respond']['status'] == 'BOOKING':
-                        AirTicketStatusToken.objects.create(user=self.request.user, token=token_data['respond']['token'])
-                        AirTicketOrderhistory.objects.create(user=self.request.user, **history_data)
+                        token_status=token_data['respond']['token']
+                        AirTicketOrderhistory.objects.create(user=self.request.user, token_status=token_status,**history_data)
                         return Response(data=token_data, status=token_response.status_code)
                     elif token_data['respond']['status'] != 'BOOKING':
                         return Response(data=token_data, status=response.status_code) 
