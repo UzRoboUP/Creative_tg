@@ -276,7 +276,7 @@ class HotelBookingFinishCancelation(generics.GenericAPIView):
             data=hotel_booking_form_finish_cancel.json()
             return Response(data=data)
         except Response:
-            return Response(data=data['error'])
+            return Response(data=data)
     
 class HotelBookedHistoryListView(generics.ListAPIView):
     queryset = HotelOrderHistory.objects.all()
