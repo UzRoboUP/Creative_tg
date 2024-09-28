@@ -131,7 +131,7 @@ class HotelOrderHistory(models.Model):
     country=models.CharField(max_length=255, blank=True, verbose_name=_("Страна"))
     city=models.CharField(max_length=255, blank=True ,verbose_name=_("Город"))
     free_cancelation=models.DateTimeField(null=True, blank=True, verbose_name=_("Бесплатная отмена"))
-    partner_order_id=models.CharField(max_length=255, null=True, blank=True, verbose_name=_("Идентификатор заказа партнера"))
+    partner_order_id=models.CharField(max_length=255, verbose_name=_("Идентификатор заказа партнера"))
 
     def save(self, *args, **kwargs):
         self.updated_at = now()

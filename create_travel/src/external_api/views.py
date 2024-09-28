@@ -18,9 +18,12 @@ from .serializers import (HotelSerializer, AirTicketRequestSerializer, RegionAut
                           HotelPageSerializer, HotelBookingFinishSerializer, HotelBookingSerializer,
                           HotelBookingFinishStatusSerializer, AirportCreateBookingTokenSerializer,
                           AirportBookingStatusSerializer, ClientDepositSerializer, AirTicketTokenSerializer,
-                         HotelBookingHistoryListSerializer, ClientSpentDepositSerializer, AirportHistoryListSerializer,PartnerOrderIdSerializer, HotelFinancialInformationSerializer)
+                          HotelOrderInformationSerializer, HotelBookingHistoryListSerializer, ClientSpentDepositSerializer, 
+                         AirportHistoryListSerializer,PartnerOrderIdSerializer, HotelFinancialInformationSerializer)
+
 from .models import (AirCityCodes, PartnerOrderId, ClientDeposit,AirTicketOrderhistory,
                      AirTicketStatusToken, HotelOrderHistory, ClientSpentDeposit)
+
 from .hashing import md5_time_hashing
 from .filters import AviaRegionFilter, HotelPartnerIdFilter
 from account.models import User
@@ -30,7 +33,8 @@ from .utils import current_time
 from core.settings.base import (HOTEL_API_URL, HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST, HOTEL_API_DETAIL_URL,
                                 HOTEL_REGION_ID_URL,AIRTICKET_USER, PASSWORD_AIRTICKET, AGENCY,AIR_TICKET_URL,
                                 LOGIN, LOGIN_PASSWORD, HOTEL_PAGE, HOTEL_BOOKING_FORM, HOTEL_BOOKING_FORM_FINISH, 
-                                HOTEL_BOOKING_FINISH_STATUS, HOTEL_BOOKING_CANCELLATION,HOTEL_CONTRACT_DATA_INFORMATION)
+                                HOTEL_BOOKING_FINISH_STATUS, HOTEL_BOOKING_CANCELLATION,HOTEL_CONTRACT_DATA_INFORMATION, 
+                                HOTEL_ORDER_INFORMATION)
 
 class ClientDepositListView(generics.ListAPIView):
     queryset=ClientDeposit.objects.all()
@@ -276,7 +280,8 @@ class HotelBookingFinishCancelation(generics.GenericAPIView):
             data=hotel_booking_form_finish_cancel.json()
             return Response(data=data)
         except Response:
-            return Response(data=data)
+            return Response(data=data
+            )
     
 class HotelBookedHistoryListView(generics.ListAPIView):
     queryset = HotelOrderHistory.objects.all()
@@ -297,7 +302,41 @@ class HotelPartnerOrderIdAPIView(generics.ListAPIView):
         queryset=PartnerOrderId.objects.filter(user=self.request.user)
         return queryset
     
+class HotelOrderInformationAPIView(generics.GenericAPIView):
+    queryset = None
+    serializer_class = HotelOrderInformationSerializer
 
+    def post(self, request):
+  
+        payload = request.data
+
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        
+        partner_order_ids = HotelOrderHistory.objects.filter(user_id=request.user.id).values_list("partner_order_id", flat=True)
+
+        if 'search' not in payload or not isinstance(payload.get('search'), dict):
+            payload['search'] = {}
+
+        payload['search']['partner_order_ids'] = list(partner_order_ids)
+
+        payload_json = json.dumps(payload)
+
+        try:
+           
+            hotel_order_information = requests.post(
+                url=HOTEL_ORDER_INFORMATION,
+                auth=(HOTEL_KEY_ID, HOTEL_KEY_TOKEN_TEST),
+                data=payload_json,  
+                headers=headers
+            )
+            
+            data = hotel_order_information.json()
+            return Response(data=data)
+        except Exception as e:
+            return Response(data={"error": str(e)}, status=500)
+        
 ##################################################################################################################################
 ##########################################STOP!IF YOU DO NOT HAVE BUSINESS WITH AVIA TICKET#######################################
 ##################################################################################################################################

@@ -15,6 +15,7 @@ urlpatterns=[
     path('hotel/partner_order_id/', view=views.HotelPartnerOrderIdAPIView.as_view(), name='hotel_partner_order_id'),
     path('hotel/contract/data/',view=views.HotelFinancialInformationAPIView.as_view(), name="hotel_finance_info"),
     path('hotel/booking/cancellation/',view=views.HotelBookingFinishCancelation.as_view(), name="hotel_bookking_cancellation"),
+    path('hotel/order_information/list/',view=views.HotelOrderInformationAPIView.as_view(), name="hotel_order_information"),
     
     path('airport/code/', view=views.AirportCodeAPIView.as_view(), name='airport_code'),
     path('airport/tickets/', view=views.AirTicketAPIView.as_view(), name='air_ticket'),

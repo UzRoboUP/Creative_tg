@@ -161,6 +161,26 @@ class ClientSpentDepositSerializer(serializers.ModelSerializer):
         model=models.ClientSpentDeposit
         fields='__all__'
 
+class OrderingSerializer(serializers.Serializer):
+    ordering_type= serializers.ChoiceField(choices=[('asc', 'asc'), ('desc', 'desc')])
+    ordering_by=serializers.CharField(max_length=255, default='created_at')
+
+class OrderPaginationSerializer(serializers.Serializer):
+    page_size=serializers.IntegerField(min_value=1, max_value=50)
+    page_number=serializers.IntegerField(min_value=1, default=1)
+
+
+class OrderSearchSerializer(serializers.Serializer):
+    partner_order_ids=serializers.ListField()                                                   
+
+    
+class HotelOrderInformationSerializer(serializers.Serializer):
+    ordering=OrderingSerializer()
+    pagination=OrderPaginationSerializer()
+    search=OrderSearchSerializer()
+    language=serializers.CharField(max_length=2)
+
+
 ################################################################################
 
 class AirTicketTokenSerializer(serializers.ModelSerializer):

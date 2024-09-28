@@ -3019,3 +3019,136 @@ AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and
 Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
 Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
 AXES: Getting access attempts that are newer than 2024-09-17 09:35:06.258819+00:00
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-09-26 12:39:29.455529+00:00
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-09-27 10:31:02.902384+00:00
+AXES: Cleaned up 0 expired access attempts from database that were older than 2024-09-27 10:31:02.902384+00:00
+AXES: Successful login by {username: "********************", ip_address: "********************", user_agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0", path_info: "/admin/login/"}.
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-09-27 13:31:04.898246+00:00
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent

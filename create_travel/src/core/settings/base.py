@@ -25,6 +25,7 @@ HOTEL_BOOKING_FINISH_STATUS=config("HOTEL_BOOKING_FINISH_STATUS")
 HOTEL_BOOKING_CANCELLATION=config("HOTEL_BOOKING_CANCELLATION")
 HOTEL_CONTRACT_DATA_INFORMATION=config("HOTEL_CONTRACT_DATA_INFORMATION")
 HOTEL_BOOKING_CANCELLATION=config("HOTEL_BOOKING_CANCELLATION")
+HOTEL_ORDER_INFORMATION=config("HOTEL_ORDER_INFORMATION")
 
 # AVIATICKET DATA
 AGENCY=config("AGENCY")
@@ -273,8 +274,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # HOST = 'https://6b4d-185-213-229-48.ngrok-free.app'
-# HOST = 'http://localhost:8000'       
-HOST='https://creativetg.leetcode.uz'
+HOST = 'http://localhost:8000'       
+# HOST='https://creativetg.leetcode.uz'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
