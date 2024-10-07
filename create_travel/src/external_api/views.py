@@ -317,8 +317,6 @@ class HotelOrderInformationAPIView(generics.GenericAPIView):
         }
         
         partner_order_ids = HotelOrderHistory.objects.filter(user_id=request.user.id).values_list("partner_order_id", flat=True)
-        order_histories=HotelOrderHistory.objects.filter(user=self.request.user)
-        order_history_list = [model_to_dict(order_history) for order_history in order_histories]
         if 'search' not in payload or not isinstance(payload.get('search'), dict):
             payload['search'] = {}
 
@@ -335,10 +333,17 @@ class HotelOrderInformationAPIView(generics.GenericAPIView):
                 headers=headers
             )
             data = hotel_order_information.json()
-            full_data={'external_data':data,
-                        'local_data':order_history_list}
+
+            order_histories=HotelOrderHistory.objects.filter(user=self.request.user)
+            order_history_list = [model_to_dict(order_history) for order_history in order_histories]
+            for order_history in order_histories:
+                pass
+
+            for order_index in range(order_histories.count()):
+                order_hitory=order_histories[order_index]
+                data['data']['orders'][order_index]['local_data']=model_to_dict(order_history)        
             
-            return Response(data=full_data)
+            return Response(data=data)
         except Exception as e:
             return Response(data={"error": str(e)}, status=500)
         

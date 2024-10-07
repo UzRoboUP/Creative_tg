@@ -3181,3 +3181,19 @@ AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and
 AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
 AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
 AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-10-07 12:30:40.078826+00:00
+Using request.META.get('REMOTE_ADDR', None) fallback method to get client IP address
+Using parameter credentials to get username with key settings.AXES_USERNAME_FORM_FIELD
+AXES: Getting access attempts that are newer than 2024-10-07 12:31:20.482446+00:00
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
+AXES: BEGIN version 6.3.0, blocking by ip_address or combination of username and user_agent
