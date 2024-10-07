@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 from django.db.models import Sum, Count
+from django.forms.models import model_to_dict
 # from django.utils.decorators import method_decorator
 # from django.views.decorators.cache import cache_page
 # from rest_framework.decorators import action
@@ -305,6 +306,7 @@ class HotelPartnerOrderIdAPIView(generics.ListAPIView):
 class HotelOrderInformationAPIView(generics.GenericAPIView):
     queryset = None
     serializer_class = HotelOrderInformationSerializer
+    permission_classes=[IsAuthenticated,]
 
     def post(self, request):
   
@@ -315,7 +317,8 @@ class HotelOrderInformationAPIView(generics.GenericAPIView):
         }
         
         partner_order_ids = HotelOrderHistory.objects.filter(user_id=request.user.id).values_list("partner_order_id", flat=True)
-
+        order_histories=HotelOrderHistory.objects.filter(user=self.request.user)
+        order_history_list = [model_to_dict(order_history) for order_history in order_histories]
         if 'search' not in payload or not isinstance(payload.get('search'), dict):
             payload['search'] = {}
 
@@ -331,9 +334,11 @@ class HotelOrderInformationAPIView(generics.GenericAPIView):
                 data=payload_json,  
                 headers=headers
             )
-            
             data = hotel_order_information.json()
-            return Response(data=data)
+            full_data={'external_data':data,
+                        'local_data':order_history_list}
+            
+            return Response(data=full_data)
         except Exception as e:
             return Response(data={"error": str(e)}, status=500)
         
